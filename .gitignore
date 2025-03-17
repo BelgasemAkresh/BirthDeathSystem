@@ -1,0 +1,26 @@
+# Python-Dateien
+*.pyc
+*.pyo
+__pycache__/
+
+# PyQt spezifische Dateien
+*.qrc
+*.ui
+*.pyrcc
+
+# IDE/Editor-Dateien (je nach deinem Editor)
+.idea/
+.vscode/
+
+# Betriebssystem-spezifische Dateien
+.DS_Store
+Thumbs.db
+
+# PyInstaller Build
+/dist/
+/build/
+*.spec
+
+# Logs und temporäre Dateien
+*.log
+*.tmp
