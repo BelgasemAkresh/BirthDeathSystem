@@ -1,0 +1,205 @@
+{
+    "password": "123",
+    "db_name": "people.db",
+    "ui": {
+        "window_width": 1600,
+        "window_height": 1150,
+        "font_size": 12,
+        "button_width": 150,
+        "button_height": 50,
+        "input_field_height": 40
+    },
+    "tables": {
+        "people1": [
+            {
+                "name": "الاسم_الاول",
+                "label": "الاسم الأول",
+                "type": "text",
+                "not_null": true,
+                "default": "أحمد"
+            },
+            {
+                "name": "اسم_العائلة",
+                "label": "اسم العائلة",
+                "type": "text",
+                "not_null": true,
+                "default": "الحسيني"
+            },
+            {
+                "name": "تاريخ_الميلاد",
+                "label": "تاريخ الميلاد",
+                "type": "date",
+                "not_null": false,
+                "default": "2000-01-01"
+            }
+        ],
+        "people2": [
+            {
+                "name": "اسم_الموظف",
+                "label": "اسم الموظف",
+                "type": "text",
+                "not_null": true,
+                "default": "موظف افتراضي"
+            },
+            {
+                "name": "القسم",
+                "label": "القسم",
+                "type": "dropdown",
+                "options": [
+                    "المبيعات",
+                    "التطوير",
+                    "التسويق"
+                ],
+                "not_null": true,
+                "default": "المبيعات"
+            },
+            {
+                "name": "الراتب",
+                "label": "الراتب",
+                "type": "number",
+                "not_null": false,
+                "default": "1000"
+            }
+        ],
+        "people3": [
+            {
+                "name": "اسم_المنتج",
+                "label": "اسم المنتج",
+                "type": "text",
+                "not_null": true,
+                "default": "منتج افتراضي"
+            },
+            {
+                "name": "الفئة",
+                "label": "الفئة",
+                "type": "dropdown",
+                "options": [
+                    "إلكترونيات",
+                    "منزل",
+                    "ملابس"
+                ],
+                "not_null": true,
+                "default": "إلكترونيات"
+            },
+            {
+                "name": "السعر",
+                "label": "السعر",
+                "type": "number",
+                "not_null": true,
+                "default": "50"
+            },
+            {
+                "name": "تاريخ_الإنتاج",
+                "label": "تاريخ الإنتاج",
+                "type": "date",
+                "not_null": false,
+                "default": "2022-01-01"
+            }
+        ],
+        "d": [
+            {
+                "name": "d",
+                "label": "d",
+                "type": "text",
+                "not_null": false,
+                "default": "d"
+            },
+            {
+                "name": "a",
+                "label": "a",
+                "type": "text",
+                "not_null": false
+            }
+        ],
+        "زواج": [
+            {
+                "name": "hname",
+                "label": "اسم الزوج",
+                "type": "dropdown",
+                "not_null": false,
+                "options": [
+                    "احمد",
+                    "محمد"
+                ]
+            },
+            {
+                "name": "wnaceme",
+                "label": "اسم الزوجة",
+                "type": "text",
+                "not_null": true
+            },
+            {
+                "name": "wnaagfme",
+                "label": "اسم الزوجة",
+                "type": "text",
+                "not_null": true
+            },
+            {
+                "name": "wnaaweme",
+                "label": "اسم الزوجة",
+                "type": "text",
+                "not_null": true
+            },
+            {
+                "name": "wnafme",
+                "label": "اسم الزوجة",
+                "type": "text",
+                "not_null": true
+            },
+            {
+                "name": "wnsame",
+                "label": "اسم الزوجة",
+                "type": "text",
+                "not_null": true
+            },
+            {
+                "name": "wnaasdffme",
+                "label": "اسم الزوجة",
+                "type": "text",
+                "not_null": true
+            },
+            {
+                "name": "wnaw23me",
+                "label": "اسم الزوجة",
+                "type": "text",
+                "not_null": true
+            },
+            {
+                "name": "wnsaame",
+                "label": "اسم الزوجة",
+                "type": "text",
+                "not_null": true
+            },
+            {
+                "name": "wnaaussdffme",
+                "label": "اسم الزوجة",
+                "type": "text",
+                "not_null": true
+            },
+            {
+                "name": "wnak2f3me",
+                "label": "اسم الزوجة",
+                "type": "text",
+                "not_null": true
+            },
+            {
+                "name": "wnhsaame",
+                "label": "اسم الزوجة",
+                "type": "text",
+                "not_null": true
+            },
+            {
+                "name": "wnaasgsdffme",
+                "label": "اسم الزوجة",
+                "type": "text",
+                "not_null": true
+            },
+            {
+                "name": "wna2aff3me",
+                "label": "اسم الزوجة",
+                "type": "text",
+                "not_null": true
+            }
+        ]
+    }
+}

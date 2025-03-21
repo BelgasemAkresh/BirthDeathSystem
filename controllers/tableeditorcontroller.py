@@ -1,0 +1,210 @@
+
+
+from model.databasemodel import DatabaseModel
+from model.tabledatamodel import TableDataModel
+
+
+import os
+
+import shutil
+from PyQt5.QtWidgets import (QMessageBox, QFileDialog
+)
+from PyQt5.QtSql import QSqlTableModel
+from PyQt5.QtCore import QObject
+
+from docxtpl import DocxTemplate
+from docx2pdf import convert
+
+# ================================================================
+# Konfiguration laden
+# ================================================================
+
+
+class TableEditorController(QObject):
+    def __init__(self, view, table_name, attributes, db, config, main_window):
+        super().__init__()
+        self.view = view
+        self.table_name = table_name
+        self.attributes = attributes
+        self.db = db
+        self.config = config
+        self.main_window = main_window
+        self.selected_record_id = None
+        self.search_mode = "string"
+        self.setup_model()
+        self.connect_signals()
+
+    def setup_model(self):
+        DatabaseModel(self.config).create_table(self.table_name, self.attributes)
+        self.model = TableDataModel(self.attributes, self.view, self.db)
+        self.model.setTable(self.table_name)
+        self.model.setEditStrategy(QSqlTableModel.OnManualSubmit)
+        self.model.select()
+        self.view.table_view.setModel(self.model)
+
+    def connect_signals(self):
+        self.view.search_input.textChanged.connect(self.search)
+        if hasattr(self.view, 'date_from'):
+            self.view.date_from.dateChanged.connect(self.search)
+        if hasattr(self.view, 'date_to'):
+            self.view.date_to.dateChanged.connect(self.search)
+        self.view.string_search_button.clicked.connect(self.set_string_mode)
+        if hasattr(self.view, 'date_search_button'):
+            self.view.date_search_button.clicked.connect(self.set_date_mode)
+        self.view.add_button.clicked.connect(self.add_entry)
+        self.view.update_button.clicked.connect(self.update_entry)
+        self.view.delete_button.clicked.connect(self.delete_entry)
+        self.view.print_button.clicked.connect(self.print_record)
+        self.view.back_button.clicked.connect(self.go_back)
+        self.view.table_view.clicked.connect(self.load_selected_record)
+
+    def set_string_mode(self):
+        self.search_mode = "string"
+        self.search()
+
+    def set_date_mode(self):
+        self.search_mode = "date"
+        self.search()
+
+    def search(self):
+        if self.search_mode == "string":
+            free_text = self.view.search_input.text().strip().replace("'", "''")
+            if free_text:
+                conditions = [f'"{attr["name"]}" LIKE \'%{free_text}%\'' for attr in self.attributes]
+                final_filter = "(" + " OR ".join(conditions) + ")"
+            else:
+                final_filter = ""
+        elif self.search_mode == "date" and hasattr(self.view, 'date_from') and hasattr(self.view, 'date_to'):
+            date_from_str = self.view.date_from.date().toString("yyyy-MM-dd")
+            date_to_str = self.view.date_to.date().toString("yyyy-MM-dd")
+            conditions = [f'("{attr["name"]}" >= \'{date_from_str}\' AND "{attr["name"]}" <= \'{date_to_str}\')'
+                          for attr in self.attributes if attr["type"] == "date"]
+            final_filter = "(" + " OR ".join(conditions) + ")" if conditions else ""
+        else:
+            final_filter = ""
+        self.model.setFilter(final_filter)
+        self.model.select()
+
+    def load_selected_record(self, index):
+        row = index.row()
+        record = self.model.record(row)
+        self.selected_record_id = record.value("id")
+        record_data = {attr["name"]: (record.value(attr["name"]) or "") for attr in self.attributes}
+        self.view.set_input_values(record_data)
+        self.view.add_button.setVisible(False)
+        self.view.update_button.setVisible(True)
+        self.view.delete_button.setVisible(True)
+
+    def add_entry(self):
+        record = self.model.record()
+        data = self.view.get_input_values()
+        for attr in self.attributes:
+            value = data[attr["name"]]
+            if not value and "default" in attr:
+                value = attr["default"]
+            if attr.get("not_null", False) and not value:
+                QMessageBox.warning(self.view, "خطأ", f"حقل {attr['label']} لا يمكن أن يكون فارغاً!")
+                return
+            record.setValue(attr["name"], value)
+        if not self.model.insertRecord(-1, record):
+            QMessageBox.critical(self.view, "خطأ", "لم يتم إضافة السجل!")
+        elif self.model.submitAll():
+            self.model.select()
+            self.view.clear_inputs()
+        else:
+            QMessageBox.critical(self.view, "خطأ", "خطأ أثناء الحفظ!")
+
+    def update_entry(self):
+        if self.selected_record_id is None:
+            return
+        row_to_update = -1
+        for row in range(self.model.rowCount()):
+            if self.model.record(row).value("id") == self.selected_record_id:
+                row_to_update = row
+                break
+        if row_to_update == -1:
+            QMessageBox.warning(self.view, "خطأ", "لم يتم العثور على السجل!")
+            return
+        data = self.view.get_input_values()
+        for attr in self.attributes:
+            value = data[attr["name"]]
+            if not value and "default" in attr:
+                value = attr["default"]
+            if attr.get("not_null", False) and not value:
+                QMessageBox.warning(self.view, "خطأ", f"حقل {attr['label']} لا يمكن أن يكون فارغاً!")
+                return
+            self.model.setData(self.model.index(row_to_update, self.model.fieldIndex(attr["name"])), value)
+        if not self.model.submitAll():
+            QMessageBox.critical(self.view, "خطأ", "لم يتم تحديث السجل!")
+        else:
+            self.model.select()
+            self.view.clear_inputs()
+
+    def delete_entry(self):
+        if self.selected_record_id is None:
+            return
+        confirmation = QMessageBox.question(
+            self.view, "تأكيد الحذف", "هل تريد حقاً حذف هذا السجل؟",
+            QMessageBox.Yes | QMessageBox.No, QMessageBox.No
+        )
+        if confirmation == QMessageBox.Yes:
+            row_to_delete = -1
+            for row in range(self.model.rowCount()):
+                if self.model.record(row).value("id") == self.selected_record_id:
+                    row_to_delete = row
+                    break
+            if row_to_delete == -1:
+                QMessageBox.warning(self.view, "خطأ", "لم يتم العثور على السجل!")
+                return
+            if not self.model.removeRow(row_to_delete):
+                QMessageBox.critical(self.view, "خطأ", "لم يتم حذف السجل!")
+            elif self.model.submitAll():
+                self.model.select()
+                self.view.clear_inputs()
+            else:
+                QMessageBox.critical(self.view, "خطأ", "خطأ أثناء الحذف!")
+
+    def print_record(self):
+        # Prüfe, ob ein Datensatz ausgewählt wurde.
+        if self.selected_record_id is None:
+            QMessageBox.warning(self.view, "خطأ", "يرجى اختيار سجل أولاً!")
+            return
+
+        # Hole den aktuellen Datensatz aus den Eingabefeldern.
+        context = self.view.get_input_values()
+
+        # Bestimme den Pfad der Vorlage (Ordner "vorlagen" + Tabellenname.docx)
+        template_path = os.path.join("vorlagen", f"{self.table_name}.docx")
+        if not os.path.exists(template_path):
+            QMessageBox.warning(self.view, "خطأ", f"لم يتم العثور على القالب: {template_path}")
+            return
+
+        try:
+            # Lade und render die Vorlage
+            doc = DocxTemplate(template_path)
+            doc.render(context)
+
+            # Speichere das ausgefüllte Dokument als temporäres DOCX
+            temp_docx = "temp_filled.docx"
+            doc.save(temp_docx)
+
+            # Konvertiere das temporäre DOCX in PDF
+            temp_pdf = "temp_filled.pdf"
+            convert(temp_docx, temp_pdf)
+
+            # Öffne einen Dialog, um den Speicherort des PDFs zu wählen
+            save_path, _ = QFileDialog.getSaveFileName(self.view, "احفظ ملف PDF", "", "PDF Dateien (*.pdf)")
+            if save_path:
+                shutil.copyfile(temp_pdf, save_path)
+                QMessageBox.information(self.view, "نجاح", f"تم حفظ ملف PDF بنجاح في:\n{save_path}")
+
+            # Aufräumen: Entferne temporäre Dateien
+            if os.path.exists(temp_docx):
+                os.remove(temp_docx)
+            if os.path.exists(temp_pdf):
+                os.remove(temp_pdf)
+        except Exception as e:
+            QMessageBox.critical(self.view, "خطأ", f"خطأ أثناء الطباعة:\n{str(e)}")
+
+    def go_back(self):
+        self.main_window.go_to_main_menu()
