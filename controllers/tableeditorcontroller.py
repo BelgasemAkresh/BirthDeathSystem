@@ -21,11 +21,12 @@ from docx2pdf import convert
 
 
 class TableEditorController(QObject):
-    def __init__(self, view, table_name, attributes, db, config, main_window):
+    def __init__(self, view, table_name, attributes, attributes_without, db, config, main_window):
         super().__init__()
         self.view = view
         self.table_name = table_name
         self.attributes = attributes
+        self.attributes_without = attributes_without
         self.db = db
         self.config = config
         self.main_window = main_window
@@ -35,8 +36,8 @@ class TableEditorController(QObject):
         self.connect_signals()
 
     def setup_model(self):
-        DatabaseModel(self.config).create_table(self.table_name, self.attributes)
-        self.model = TableDataModel(self.attributes, self.view, self.db)
+        DatabaseModel(self.config).create_table(self.table_name, self.attributes_without)
+        self.model = TableDataModel(self.attributes_without, self.view, self.db)
         self.model.setTable(self.table_name)
         self.model.setEditStrategy(QSqlTableModel.OnManualSubmit)
         self.model.select()
@@ -70,7 +71,7 @@ class TableEditorController(QObject):
         if self.search_mode == "string":
             free_text = self.view.search_input.text().strip().replace("'", "''")
             if free_text:
-                conditions = [f'"{attr["name"]}" LIKE \'%{free_text}%\'' for attr in self.attributes]
+                conditions = [f'"{attr["name"]}" LIKE \'%{free_text}%\'' for attr in self.attributes_without]
                 final_filter = "(" + " OR ".join(conditions) + ")"
             else:
                 final_filter = ""
@@ -89,7 +90,7 @@ class TableEditorController(QObject):
         row = index.row()
         record = self.model.record(row)
         self.selected_record_id = record.value("id")
-        record_data = {attr["name"]: (record.value(attr["name"]) or "") for attr in self.attributes}
+        record_data = {attr["name"]: (record.value(attr["name"]) or "") for attr in self.attributes_without}
         self.view.set_input_values(record_data)
         self.view.add_button.setVisible(False)
         self.view.update_button.setVisible(True)
@@ -98,7 +99,7 @@ class TableEditorController(QObject):
     def add_entry(self):
         record = self.model.record()
         data = self.view.get_input_values()
-        for attr in self.attributes:
+        for attr in self.attributes_without:
             value = data[attr["name"]]
             if not value and "default" in attr:
                 value = attr["default"]
@@ -126,7 +127,7 @@ class TableEditorController(QObject):
             QMessageBox.warning(self.view, "خطأ", "لم يتم العثور على السجل!")
             return
         data = self.view.get_input_values()
-        for attr in self.attributes:
+        for attr in self.attributes_without:
             value = data[attr["name"]]
             if not value and "default" in attr:
                 value = attr["default"]

@@ -1,7 +1,7 @@
 import json
 from PyQt5.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QGridLayout,
-    QLineEdit, QPushButton, QLabel, QComboBox, QDateEdit, QSpinBox
+    QLineEdit, QPushButton, QLabel, QComboBox, QDateEdit, QSpinBox, QFrame
 )
 from PyQt5.QtCore import Qt, QDate
 
@@ -18,10 +18,11 @@ class TableEditorView(QWidget):
     """
     Die View für die Bearbeitung einer Tabelle. Sie stellt alle UI-Elemente bereit.
     """
-    def __init__(self, table_name, attributes, config):
+    def __init__(self, table_name, attributes, attributes_without, config):
         super().__init__()
         self.table_name = table_name
         self.attributes = attributes
+        self.attributes_without = attributes_without
         self.config = config
         self.selected_record_id = None
         self.setWindowTitle(f"تعديل {table_name}")
@@ -44,7 +45,7 @@ class TableEditorView(QWidget):
         layout.addLayout(text_search_layout)
 
         # Datumssuche, falls erforderlich
-        if any(attr["type"] == "date" for attr in self.attributes):
+        if any(attr["type"] == "date" for attr in self.attributes_without):
             date_search_layout = QHBoxLayout()
             from_label = QLabel("من:")
             date_search_layout.addWidget(from_label)
@@ -74,17 +75,39 @@ class TableEditorView(QWidget):
         self.table_view = ProportionalTableView()
         layout.addWidget(self.table_view)
 
-        # Eingabefelder (Grid)
         self.input_widgets = {}
-        grid_layout = QGridLayout()
-        cols = 3
-        for i, attr in enumerate(self.attributes):
+        main_layout = QVBoxLayout()  # Hauptlayout für alle Zeilen
+        current_row_layout = QHBoxLayout()  # Layout der aktuellen Zeile
+
+        for attr in self.attributes:
+            if attr["name"] == "breakline":
+                # Zeilenumbruch: Aktuelle Zeile abschließen
+                current_row_layout.addStretch(1)
+                main_layout.addLayout(current_row_layout)
+                # Falls das Breakline-Attribut als Trennlinie markiert ist (label == "line"),
+                # wird eine horizontale Trennlinie eingefügt.
+                if attr["label"] == "line":
+                    divider = QFrame()
+                    divider.setFrameShape(QFrame.HLine)
+                    divider.setFrameShadow(QFrame.Sunken)
+                    main_layout.addWidget(divider)
+                # Starte eine neue Zeile
+                current_row_layout = QHBoxLayout()
+                continue
+
             label = QLabel(attr["label"] + ":")
             widget = self.create_input_widget(attr)
             self.input_widgets[attr["name"]] = widget
-            grid_layout.addWidget(label, i // cols, (i % cols) * 2)
-            grid_layout.addWidget(widget, i // cols, (i % cols) * 2 + 1)
-        layout.addLayout(grid_layout)
+
+            current_row_layout.addWidget(label)
+            current_row_layout.addWidget(widget)
+
+        # Falls noch Widgets in der letzten Zeile vorhanden sind, diese hinzufügen.
+        if current_row_layout.count() > 0:
+            current_row_layout.addStretch(1)
+            main_layout.addLayout(current_row_layout)
+
+        layout.addLayout(main_layout)
 
         # Button-Leiste: Hinzufügen, Aktualisieren, Löschen, Drucken und Zurück
         btn_layout = QHBoxLayout()
@@ -145,7 +168,7 @@ class TableEditorView(QWidget):
 
     def get_input_values(self):
         data = {}
-        for attr in self.attributes:
+        for attr in self.attributes_without:
             name = attr["name"]
             widget = self.input_widgets[name]
             if attr["type"] == "text":
@@ -161,7 +184,7 @@ class TableEditorView(QWidget):
         return data
 
     def set_input_values(self, record):
-        for attr in self.attributes:
+        for attr in self.attributes_without:
             name = attr["name"]
             widget = self.input_widgets[name]
             value = record.get(name, "")
@@ -182,7 +205,7 @@ class TableEditorView(QWidget):
                 widget.setText(value)
 
     def clear_inputs(self):
-        for attr in self.attributes:
+        for attr in self.attributes_without:
             widget = self.input_widgets[attr["name"]]
             if attr["type"] == "text":
                 widget.clear()
