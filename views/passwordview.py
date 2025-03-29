@@ -18,6 +18,28 @@ class PasswordView(QWidget):
     def setup_ui(self):
         main_layout = QVBoxLayout(self)
 
+        # Überschrift (zentriert)
+        text_label_layout = QHBoxLayout()
+        text_label = QLabel('دولة ليبيا')
+        header_font = QFont("Arial", 26)
+        text_label.setFont(header_font)
+        text_label.setAlignment(Qt.AlignCenter)
+        text_label_layout.addStretch()
+        text_label_layout.addWidget(text_label)
+        text_label_layout.addStretch()
+        main_layout.addLayout(text_label_layout)
+
+        # Überschrift (zentriert)
+        text_label_layout = QHBoxLayout()
+        text_label = QLabel('وزارة الخارجية و التعاون الدولي')
+        header_font = QFont("Arial", 26)
+        text_label.setFont(header_font)
+        text_label.setAlignment(Qt.AlignCenter)
+        text_label_layout.addStretch()
+        text_label_layout.addWidget(text_label)
+        text_label_layout.addStretch()
+        main_layout.addLayout(text_label_layout)
+
         # Header: Bild oben
         image_layout = QHBoxLayout()
         image_layout.addStretch()
@@ -29,9 +51,16 @@ class PasswordView(QWidget):
         image_layout.addStretch()
         main_layout.addLayout(image_layout)
 
+        # Um das Label auch vertikal zu zentrieren:
+        main_layout.addStretch()  # Obere vertikale Strecke
+        main_layout.addLayout(text_label_layout)
+        main_layout.addStretch()  # Untere vertikale Strecke
+        # Login-Panel: Passwort-Label, Eingabefeld und Button
+        login_panel_layout = QVBoxLayout()
+
         # Überschrift (zentriert)
         text_label_layout = QHBoxLayout()
-        text_label = QLabel('منظومة إصدار التأشيرات بالسفارة الليبية ببرلين')
+        text_label = QLabel('منظومة الأحوال المدنية بالقنصلية العامة في دوسلدورف')
         header_font = QFont("Arial", 20)
         text_label.setFont(header_font)
         text_label.setAlignment(Qt.AlignCenter)
@@ -39,9 +68,6 @@ class PasswordView(QWidget):
         text_label_layout.addWidget(text_label)
         text_label_layout.addStretch()
         main_layout.addLayout(text_label_layout)
-
-        # Login-Panel: Passwort-Label, Eingabefeld und Button
-        login_panel_layout = QVBoxLayout()
 
         # Passwort-Label (zentriert)
         label_layout = QHBoxLayout()
@@ -91,14 +117,14 @@ class PasswordView(QWidget):
 
         # Footer (zentriert)
         footer_layout = QHBoxLayout()
-        footer_text = QLabel('2024 Developed by ')
+        footer_text = QLabel('2025 Developed by IT Power&More ')
         footer_text.setStyleSheet("font-size: 16px;")
-        logo_path = 'Bilder/logo1x1-_improved.png'
+        logo_path = 'Bilder/logo-improved.png'
         logo_pixmap = QPixmap(logo_path).scaled(80, 80, Qt.KeepAspectRatio)
         logo_label = QLabel()
         logo_label.setPixmap(logo_pixmap)
         link_label = QLabel(
-            '<a href="https://www.itpandmore.com" style="color: white; text-decoration: none;">www.itpandmore.com</a>')
+            '<a href="https://www.itpandmore.com" style="color:#D4AF37 ; text-decoration: none;">www.itpandmore.com</a>')
         link_label.setStyleSheet("color: white; font-size: 16px;")
         link_label.setOpenExternalLinks(True)
         footer_layout.addStretch()

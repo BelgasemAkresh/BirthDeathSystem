@@ -65,7 +65,7 @@ class MainWindow(QWidget):
     def __init__(self, config):
         super().__init__()
         self.config = config
-        self.setWindowTitle("التطبيق الرئيسي")
+        self.setWindowTitle("القنصلية العامة في دوسلدورف")
         self.setGeometry(100, 100, config["ui"]["window_width"], config["ui"]["window_height"])
         self.setLayoutDirection(Qt.RightToLeft)
         self.db_model = DatabaseModel(config)
@@ -94,10 +94,12 @@ class MainWindow(QWidget):
 
     def open_table_editor(self, table_name, config_json):
         attributes = json.loads(config_json)
-        table_editor_view = TableEditorView(table_name, attributes, self.config)
+        attributes_without = [attr for attr in attributes if attr.get("name") != "breakline"]
+        table_editor_view = TableEditorView(table_name, attributes, attributes_without, self.config)
+
         # Controller speichern, damit er nicht garbage-collected wird.
         self.current_table_editor_controller = TableEditorController(
-            table_editor_view, table_name, attributes, self.db_model.db, self.config, self
+            table_editor_view, table_name, attributes, attributes_without, self.db_model.db, self.config, self
         )
         self.stack.addWidget(table_editor_view)
         self.stack.setCurrentWidget(table_editor_view)
@@ -116,9 +118,9 @@ if __name__ == "__main__":
     app.setStyle("Fusion")
 
     darker_palette = QPalette()
-    darker_palette.setColor(QPalette.Window, QColor(44, 62, 80))
-    darker_palette.setColor(QPalette.WindowText, Qt.white)
-    darker_palette.setColor(QPalette.Base, QColor(210, 210, 210))
+    darker_palette.setColor(QPalette.Window, QColor(52, 52, 52))
+#    darker_palette.setColor(QPalette.Base, QColor(210, 210, 210))
+    darker_palette.setColor(QPalette.WindowText, QColor(212, 175, 55))
     darker_palette.setColor(QPalette.AlternateBase, QColor(190, 190, 190))
     darker_palette.setColor(QPalette.ToolTipBase, Qt.white)
     darker_palette.setColor(QPalette.ToolTipText, Qt.black)

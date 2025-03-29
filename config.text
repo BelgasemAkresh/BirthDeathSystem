@@ -1,6 +1,6 @@
 {
     "password": "123",
-    "db_name": "people.db",
+    "db_name": "database.db",
     "ui": {
         "window_width": 1600,
         "window_height": 1150,
@@ -10,195 +10,598 @@
         "input_field_height": 40
     },
     "tables": {
-        "people1": [
+        "سجل_واقعات_الزواج": [
             {
-                "name": "الاسم_الاول",
-                "label": "الاسم الأول",
+                "name": "regcenter",
+                "label": "مكتب السجل المدني",
                 "type": "text",
-                "not_null": true,
-                "default": "أحمد"
+                "not_null": true
             },
             {
-                "name": "اسم_العائلة",
-                "label": "اسم العائلة",
+                "name": "buchNr",
+                "label": "رقم ورقة العائلة",
                 "type": "text",
-                "not_null": true,
-                "default": "الحسيني"
+                "not_null": true
             },
             {
-                "name": "تاريخ_الميلاد",
+                "name": "jahr",
+                "label": "في سنة",
+                "type": "number",
+                "not_null": true,
+                "default": "12"
+            },
+            {
+                "name": "tag",
+                "label": "يوم",
+                "type": "number",
+                "not_null": true
+            },
+            {
+                "name": "monat",
+                "label": "من شهر",
+                "type": "number",
+                "not_null": true
+            },
+            {
+                "name": "ort",
+                "label": "في",
+                "type": "text",
+                "not_null": true
+            },
+            {
+                "name": "hvorname",
+                "label": "أسم الزوج",
+                "type": "text",
+                "not_null": true
+            },
+            {
+                "name": "breakline",
+                "label": "breakline",
+                "type": "date",
+                "not_null": false
+            },
+            {
+                "name": "hnachname",
+                "label": "لقبه",
+                "type": "text",
+                "not_null": true
+            },
+            {
+                "name": "hreligion",
+                "label": "ديانته",
+                "type": "text",
+                "not_null": true
+            },
+            {
+                "name": "halte",
+                "label": "البالغ من العمر",
+                "type": "number",
+                "not_null": false
+            },
+            {
+                "name": "hberuf",
+                "label": "مهنته",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "hgdatum",
                 "label": "تاريخ الميلاد",
                 "type": "date",
-                "not_null": false,
-                "default": "2000-01-01"
-            }
-        ],
-        "people2": [
+                "not_null": true
+            },
             {
-                "name": "اسم_الموظف",
-                "label": "اسم الموظف",
+                "name": "hadresse",
+                "label": "محل إقامته",
                 "type": "text",
-                "not_null": true,
-                "default": "موظف افتراضي"
+                "not_null": false
             },
             {
-                "name": "القسم",
-                "label": "القسم",
-                "type": "dropdown",
-                "options": [
-                    "المبيعات",
-                    "التطوير",
-                    "التسويق"
-                ],
-                "not_null": true,
-                "default": "المبيعات"
-            },
-            {
-                "name": "الراتب",
-                "label": "الراتب",
-                "type": "number",
-                "not_null": false,
-                "default": "1000"
-            }
-        ],
-        "people3": [
-            {
-                "name": "اسم_المنتج",
-                "label": "اسم المنتج",
+                "name": "hpassNr",
+                "label": "رقم جواز سفر",
                 "type": "text",
-                "not_null": true,
-                "default": "منتج افتراضي"
+                "not_null": true
             },
             {
-                "name": "الفئة",
-                "label": "الفئة",
-                "type": "dropdown",
-                "options": [
-                    "إلكترونيات",
-                    "منزل",
-                    "ملابس"
-                ],
-                "not_null": true,
-                "default": "إلكترونيات"
-            },
-            {
-                "name": "السعر",
-                "label": "السعر",
-                "type": "number",
-                "not_null": true,
-                "default": "50"
-            },
-            {
-                "name": "تاريخ_الإنتاج",
-                "label": "تاريخ الإنتاج",
+                "name": "hpassdatum",
+                "label": "تاريخ الصدور",
                 "type": "date",
-                "not_null": false,
-                "default": "2022-01-01"
-            }
-        ],
-        "d": [
-            {
-                "name": "d",
-                "label": "d",
-                "type": "text",
-                "not_null": false,
-                "default": "d"
+                "not_null": true
             },
             {
-                "name": "a",
+                "name": "hpassOrt",
+                "label": "جهة الصدور",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "hnameMutter",
+                "label": "أسم والدة",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "wvorname",
+                "label": "أسم الزوجة",
+                "type": "text",
+                "not_null": true
+            },
+            {
+                "name": "wnachname",
+                "label": "لقبها",
+                "type": "text",
+                "not_null": true
+            },
+            {
+                "name": "breakline",
+                "label": "breakline",
+                "type": "date",
+                "not_null": false
+            },
+            {
+                "name": "wreligion",
+                "label": "ديانتها",
+                "type": "text",
+                "not_null": true
+            },
+            {
+                "name": "walte",
+                "label": "البالغة من العمر",
+                "type": "text",
+                "not_null": true
+            },
+            {
+                "name": "wberuf",
+                "label": "مهنتها",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "breakline",
+                "label": "line",
+                "type": "date",
+                "not_null": false
+            },
+            {
+                "name": "wgdatum",
+                "label": "تاریخ میلادها",
+                "type": "date",
+                "not_null": true
+            },
+            {
+                "name": "wadresse",
+                "label": "محل أقامتها",
+                "type": "text",
+                "not_null": true
+            },
+            {
+                "name": "wpassNr",
+                "label": "رقم جواز سفرها",
+                "type": "text",
+                "not_null": true
+            },
+            {
+                "name": "wpassdatum",
+                "label": "تاريخ الصدور",
+                "type": "date",
+                "not_null": true
+            },
+            {
+                "name": "wpassOrt",
+                "label": "جهة الصدور",
+                "type": "text",
+                "not_null": true
+            },
+            {
+                "name": "wnameMutter",
+                "label": "أسم والدة الزوجة",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "wnameVater",
+                "label": "أسم والد الزوجة",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "breakline",
+                "label": "line",
+                "type": "date",
+                "not_null": false
+            },
+            {
+                "name": "wadresseEltern",
+                "label": "محل أقامه والد والدة الزوجة",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "regdatum",
+                "label": "قيد العقد في السجل بتاريخ",
+                "type": "date",
+                "not_null": true
+            },
+            {
+                "name": "regnumber",
+                "label": "سجل تحت رقم",
+                "type": "text",
+                "not_null": true
+            },
+            {
+                "name": "beamtername",
+                "label": "أسم الموظف",
+                "type": "text",
+                "not_null": true
+            },
+            {
+                "name": "beamterkennung",
+                "label": "الصفة",
+                "type": "text",
+                "not_null": true
+            }
+        ],
+        "سجل_واقعات_الطلاق": [
+            {
+                "name": "regcenter",
+                "label": "مكتب السجل المدني",
+                "type": "text",
+                "not_null": true
+            },
+            {
+                "name": "buchNr",
+                "label": "رقم ورقة العائلة",
+                "type": "text",
+                "not_null": true
+            }
+        ],
+        "سجل_واقعات_الوفاة": [
+            {
+                "name": "regcenter",
+                "label": "مكتب السجل المدني",
+                "type": "text",
+                "not_null": true
+            },
+            {
+                "name": "paperNr",
+                "label": "رقم ورقة العائلة",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "regnumber",
+                "label": "رقم القيد بالسجل",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "familieNr",
+                "label": "رقم قيد العائلة",
+                "type": "number",
+                "not_null": false
+            },
+            {
+                "name": "IDNr",
+                "label": "رقم الوطني",
+                "type": "text",
+                "not_null": true
+            },
+            {
+                "name": "Pname",
+                "label": "أسم المبلغ",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "Padresse",
+                "label": "عنوانه (في ليبيا)",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "Pidentiy",
+                "label": "مستند إثبات الشخصية",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "PidentiyNr",
+                "label": "رقمه",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "datum",
+                "label": "تاريخ القيد",
+                "type": "date",
+                "not_null": true
+            },
+            {
+                "name": "notes",
+                "label": "ملاحظات",
+                "type": "text",
+                "not_null": true,
+                "default": "لا يوجد"
+            }
+        ],
+        "سجل_واقعات_الولادة": [
+            {
+                "name": "breakline",
                 "label": "a",
                 "type": "text",
                 "not_null": false
-            }
-        ],
-        "زواج": [
+            },
             {
-                "name": "hname",
-                "label": "اسم الزوج",
+                "name": "regcenter",
+                "label": "مكتب السجل المدني",
+                "type": "text",
+                "not_null": true
+            },
+            {
+                "name": "paperNr",
+                "label": "رقم ورقة العائلة",
+                "type": "text",
+                "not_null": true
+            },
+            {
+                "name": "familieNr",
+                "label": "رقم قيد العائلة",
+                "type": "text",
+                "not_null": true
+            },
+            {
+                "name": "regnumber",
+                "label": "رقم القيد بالسجل",
+                "type": "text",
+                "not_null": true
+            },
+            {
+                "name": "regNr",
+                "label": "سند القيد",
+                "type": "text",
+                "not_null": true
+            },
+            {
+                "name": "breakline",
+                "label": "line",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "breakline",
+                "label": "line",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "vorname",
+                "label": "الأسم ثلاثي",
+                "type": "text",
+                "not_null": true
+            },
+            {
+                "name": "nachname",
+                "label": "اللقب",
+                "type": "text",
+                "not_null": true
+            },
+            {
+                "name": "gtag",
+                "label": "تاريخ الولادة - اليوم",
+                "type": "text",
+                "not_null": true
+            },
+            {
+                "name": "gmonat",
+                "label": "الشهر",
                 "type": "dropdown",
-                "not_null": false,
+                "not_null": true,
                 "options": [
-                    "احمد",
-                    "محمد"
+                    "يناير",
+                    "فبراير",
+                    "مارس",
+                    "أبريل",
+                    "مايو",
+                    "يونيو",
+                    "يوليو",
+                    "أغسطس",
+                    "سبتمبر",
+                    "أكتوبر",
+                    "نوفمبر",
+                    "ديسمبر"
                 ]
             },
             {
-                "name": "wnaceme",
-                "label": "اسم الزوجة",
+                "name": "gjahr",
+                "label": "السنة",
+                "type": "dropdown",
+                "not_null": true,
+                "options": [
+                    "ألفان وأربعة وعشرون",
+                    "ألفان وخمسة وعشرون",
+                    "ألفان وستة وعشرون",
+                    "ألفان وسبعة وعشرون",
+                    "ألفان وثمانية وعشرون"
+                ]
+            },
+            {
+                "name": "gdatum",
+                "label": "الموافق",
+                "type": "date",
+                "not_null": true
+            },
+            {
+                "name": "breakline",
+                "label": "a",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "gOrt",
+                "label": "مكان الولادة",
                 "type": "text",
                 "not_null": true
             },
             {
-                "name": "wnaagfme",
-                "label": "اسم الزوجة",
+                "name": "Staat",
+                "label": "الدولة",
+                "type": "text",
+                "not_null": true,
+                "default": "جمهورية ألمانيا"
+            },
+            {
+                "name": "sex",
+                "label": "جنس المولود",
+                "type": "dropdown",
+                "not_null": true,
+                "options": [
+                    "أنثى",
+                    "ذكر"
+                ]
+            },
+            {
+                "name": "gArt",
+                "label": "نوع الولادة",
+                "type": "dropdown",
+                "not_null": false,
+                "options": [
+                    "فردية",
+                    "توائم"
+                ]
+            },
+            {
+                "name": "breakline",
+                "label": "line",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "breakline",
+                "label": "line",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "Vvor",
+                "label": "أسم الأب",
                 "type": "text",
                 "not_null": true
             },
             {
-                "name": "wnaaweme",
-                "label": "اسم الزوجة",
+                "name": "Vnach",
+                "label": "لقبه",
                 "type": "text",
                 "not_null": true
             },
             {
-                "name": "wnafme",
-                "label": "اسم الزوجة",
+                "name": "beruf",
+                "label": "مهنتة",
                 "type": "text",
                 "not_null": true
             },
             {
-                "name": "wnsame",
-                "label": "اسم الزوجة",
+                "name": "relegion",
+                "label": "دينه",
+                "type": "text",
+                "not_null": true,
+                "default": "مسلم"
+            },
+            {
+                "name": "dHeirate",
+                "label": "تاريخ الزواج",
+                "type": "date",
+                "not_null": true
+            },
+            {
+                "name": "breakline",
+                "label": "a",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "Mvor",
+                "label": "أسم الأم",
                 "type": "text",
                 "not_null": true
             },
             {
-                "name": "wnaasdffme",
-                "label": "اسم الزوجة",
+                "name": "Mnach",
+                "label": "لقبه",
                 "type": "text",
                 "not_null": true
             },
             {
-                "name": "wnaw23me",
-                "label": "اسم الزوجة",
+                "name": "Mnation",
+                "label": "جنسيتها",
                 "type": "text",
                 "not_null": true
             },
             {
-                "name": "wnsaame",
-                "label": "اسم الزوجة",
+                "name": "Mberuf",
+                "label": "مهنتها",
                 "type": "text",
                 "not_null": true
             },
             {
-                "name": "wnaaussdffme",
-                "label": "اسم الزوجة",
+                "name": "breakline",
+                "label": "line",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "breakline",
+                "label": "line",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "regdata",
+                "label": "تاريخ التبليغ",
+                "type": "date",
+                "not_null": true
+            },
+            {
+                "name": "nameCenter",
+                "label": "أسم المبلغ يذكر الاسم و العنوان (فرداً أو جهة)",
                 "type": "text",
                 "not_null": true
             },
             {
-                "name": "wnak2f3me",
-                "label": "اسم الزوجة",
+                "name": "breakline",
+                "label": "line",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "breakline",
+                "label": "line",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "beamtername",
+                "label": "أسم الموظف الذي قام بالقيد",
                 "type": "text",
                 "not_null": true
             },
             {
-                "name": "wnhsaame",
-                "label": "اسم الزوجة",
+                "name": "beamterkennung",
+                "label": "الصفة",
                 "type": "text",
-                "not_null": true
+                "not_null": true,
+                "default": "مسؤول الشؤون القنصلية"
             },
             {
-                "name": "wnaasgsdffme",
-                "label": "اسم الزوجة",
+                "name": "breakline",
+                "label": "a",
                 "type": "text",
-                "not_null": true
+                "not_null": false
             },
             {
-                "name": "wna2aff3me",
-                "label": "اسم الزوجة",
+                "name": "notes",
+                "label": "ملاحظات",
                 "type": "text",
-                "not_null": true
+                "not_null": false
             }
         ]
     }
