@@ -175,7 +175,7 @@ class TableEditorController(QObject):
         context = self.view.get_input_values()
 
         # Bestimme den Pfad der Vorlage (Ordner "vorlagen" + Tabellenname.docx)
-        template_path = os.path.join("vorlagen", f"{self.table_name}.docx")
+        template_path = os.path.join("vorlagen", f"{self.view.print_dropdown.currentText()}.docx")
         if not os.path.exists(template_path):
             QMessageBox.warning(self.view, "خطأ", f"لم يتم العثور على القالب: {template_path}")
             return

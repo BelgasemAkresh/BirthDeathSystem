@@ -1,7 +1,7 @@
 import json
 from PyQt5.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QGridLayout,
-    QLineEdit, QPushButton, QLabel, QComboBox, QDateEdit, QSpinBox, QFrame
+    QLineEdit, QPushButton, QLabel, QComboBox, QDateEdit, QSpinBox, QFrame, QSizePolicy
 )
 from PyQt5.QtCore import Qt, QDate
 
@@ -33,18 +33,21 @@ class TableEditorView(QWidget):
     def setup_ui(self):
         layout = QVBoxLayout(self)
 
-        # Suchleiste: Freies Suchfeld + "بحث نص"-Button
+        # Beispiel: Vorhandene Suchzeile und Datumssuche etc. – belassen wie gehabt
+        # -----------------------------------------------------
         text_search_layout = QHBoxLayout()
         self.search_input = QLineEdit()
         self.search_input.setPlaceholderText("ابحث في جميع الحقول")
         self.search_input.setMinimumHeight(self.config["ui"]["input_field_height"])
         text_search_layout.addWidget(self.search_input)
         self.string_search_button = QPushButton("بحث نص")
-        self.string_search_button.setMinimumSize(self.config["ui"]["button_width"], self.config["ui"]["button_height"])
+        self.string_search_button.setMinimumSize(
+            self.config["ui"]["button_width"],
+            self.config["ui"]["button_height"]
+        )
         text_search_layout.addWidget(self.string_search_button)
         layout.addLayout(text_search_layout)
 
-        # Datumssuche, falls erforderlich
         if any(attr["type"] == "date" for attr in self.attributes_without):
             date_search_layout = QHBoxLayout()
             from_label = QLabel("من:")
@@ -65,51 +68,119 @@ class TableEditorView(QWidget):
             date_search_layout.addWidget(self.date_to)
             date_search_layout.addStretch()
             self.date_search_button = QPushButton("بحث بتاريخ")
-            self.date_search_button.setMinimumSize(self.config["ui"]["button_width"], self.config["ui"]["button_height"])
+            self.date_search_button.setMinimumSize(
+                self.config["ui"]["button_width"],
+                self.config["ui"]["button_height"]
+            )
             date_search_layout.addWidget(self.date_search_button)
             layout.addLayout(date_search_layout)
             self.string_search_button.setChecked(True)
+
         self.search_mode = "string"
 
-        # Tabelle
+        # Beispiel: Deine Tabelle
+        # -----------------------------------------------------
         self.table_view = ProportionalTableView()
         layout.addWidget(self.table_view)
 
+        # Ab hier: Dynamische Gruppierung der Attribute
+        # -----------------------------------------------------
+        # Neue Layout-Logik für dynamische Gruppen
         self.input_widgets = {}
-        main_layout = QVBoxLayout()  # Hauptlayout für alle Zeilen
-        current_row_layout = QHBoxLayout()  # Layout der aktuellen Zeile
+
+        # Gruppiere die Attribute nach "breakline"
+        groups = []
+        current_group = []
+        add_line_after_group = False
+        print_labels = []
 
         for attr in self.attributes:
             if attr["name"] == "breakline":
-                # Zeilenumbruch: Aktuelle Zeile abschließen
-                current_row_layout.addStretch(1)
-                main_layout.addLayout(current_row_layout)
-                # Falls das Breakline-Attribut als Trennlinie markiert ist (label == "line"),
-                # wird eine horizontale Trennlinie eingefügt.
-                if attr["label"] == "line":
-                    divider = QFrame()
-                    divider.setFrameShape(QFrame.HLine)
-                    divider.setFrameShadow(QFrame.Sunken)
-                    main_layout.addWidget(divider)
-                # Starte eine neue Zeile
-                current_row_layout = QHBoxLayout()
-                continue
+                if attr.get("label") == "print":
+                    print_labels = attr.get("options", [])
+                elif current_group:
+                    groups.append((current_group, add_line_after_group))
+                    current_group = []
+                    add_line_after_group = False
+                elif attr.get("label") == "line":
+                    add_line_after_group = True
+            else:
+                current_group.append(attr)
+        if current_group :
+            groups.append((current_group, add_line_after_group))
 
-            label = QLabel(attr["label"] + ":")
-            widget = self.create_input_widget(attr)
-            self.input_widgets[attr["name"]] = widget
+        if print_labels == []:
+            print_labels.append(self.table_name)
 
-            current_row_layout.addWidget(label)
-            current_row_layout.addWidget(widget)
 
-        # Falls noch Widgets in der letzten Zeile vorhanden sind, diese hinzufügen.
-        if current_row_layout.count() > 0:
-            current_row_layout.addStretch(1)
-            main_layout.addLayout(current_row_layout)
+        # Analyse: maximale Felder pro Reihe bestimmen
+        max_fields_in_row = 0
+        for group_attrs, _ in groups:
+            group_size = len(group_attrs)
+            if group_size <= 2:
+                fields_per_row = group_size
+            elif group_size <= 6:
+                fields_per_row = 3
+            else:
+                fields_per_row = 4
+            max_fields_in_row = max(max_fields_in_row, fields_per_row)
 
+        total_columns = max_fields_in_row * 2  # Label + Input je Feld
+
+        # Hauptlayout für die Input-Felder
+        form_layout = QGridLayout()
+        form_layout.setHorizontalSpacing(10)
+        form_layout.setVerticalSpacing(10)
+
+        current_row = 0
+        for group_attrs, add_line in groups:
+            group_size = len(group_attrs)
+            if group_size <= 2:
+                fields_per_row = group_size
+            elif group_size <= 6:
+                fields_per_row = 3
+            else:
+                fields_per_row = 4
+
+            col = 0
+            for index, attr in enumerate(group_attrs):
+                if index > 0 and index % fields_per_row == 0:
+                    current_row += 1
+                    col = 0
+
+                label = QLabel(attr["label"] + ":")
+                label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+
+                widget = self.create_input_widget(attr)
+                self.input_widgets[attr["name"]] = widget
+
+                form_layout.addWidget(label, current_row, col)
+                form_layout.addWidget(widget, current_row, col + 1)
+                col += 2
+
+            current_row += 1  # nächste Gruppe fängt in neuer Zeile an
+
+            if add_line:
+                line = QFrame()
+                line.setFrameShape(QFrame.HLine)
+                line.setFrameShadow(QFrame.Sunken)
+                form_layout.addWidget(line, current_row, 0, 1, total_columns)
+                current_row += 1
+
+        # Stretch: Eingabe-Spalten dehnbar, Labels fix
+        for i in range(total_columns):
+            if i % 2 == 0:
+                form_layout.setColumnStretch(i, 0)
+            else:
+                form_layout.setColumnStretch(i, 1)
+
+        # Pack das alles in ein VBoxLayout und hänge es ans Hauptlayout
+        main_layout = QVBoxLayout()
+        main_layout.addLayout(form_layout)
         layout.addLayout(main_layout)
 
-        # Button-Leiste: Hinzufügen, Aktualisieren, Löschen, Drucken und Zurück
+        # Beispiel: Buttons darunter (wie gehabt)
+        # -----------------------------------------------------
         btn_layout = QHBoxLayout()
         self.add_button = QPushButton("إضافة")
         self.add_button.setMinimumSize(self.config["ui"]["button_width"], self.config["ui"]["button_height"])
@@ -125,6 +196,13 @@ class TableEditorView(QWidget):
         self.print_button = QPushButton("طباعة")
         self.print_button.setMinimumSize(self.config["ui"]["button_width"], self.config["ui"]["button_height"])
         btn_layout.addWidget(self.print_button)
+
+        # Dropdown neben print_button
+        self.print_dropdown = QComboBox()
+        self.print_dropdown.setFixedHeight(self.config["ui"]["button_height"])  # Höhe passend zu Buttons
+        self.print_dropdown.addItems(print_labels)
+        btn_layout.addWidget(self.print_dropdown)
+
         self.back_button = QPushButton("عودة")
         self.back_button.setMinimumSize(self.config["ui"]["button_width"], self.config["ui"]["button_height"])
         btn_layout.addWidget(self.back_button)
@@ -132,6 +210,7 @@ class TableEditorView(QWidget):
 
     def create_input_widget(self, attr):
         attr_type = attr["type"]
+
         if attr_type == "text":
             widget = QLineEdit()
         elif attr_type == "date":
@@ -147,23 +226,29 @@ class TableEditorView(QWidget):
             widget.setMinimum(0)
             widget.setMaximum(1000000)
         else:
+            # Fallback: einfaches QLineEdit
             widget = QLineEdit()
+
         widget.setMinimumHeight(self.config["ui"]["input_field_height"])
+        widget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+
+        # Default-Werte setzen
         if "default" in attr:
-            if attr["type"] == "date":
+            if attr_type == "date":
                 date_val = QDate.fromString(attr["default"], "yyyy-MM-dd")
                 if date_val.isValid():
                     widget.setDate(date_val)
-            elif attr["type"] == "number":
+            elif attr_type == "number":
                 try:
                     widget.setValue(int(attr["default"]))
                 except ValueError:
                     pass
-            elif attr["type"] == "dropdown":
+            elif attr_type == "dropdown":
                 index = widget.findText(attr["default"])
                 widget.setCurrentIndex(index if index >= 0 else 0)
             else:
                 widget.setText(attr["default"])
+
         return widget
 
     def get_input_values(self):
