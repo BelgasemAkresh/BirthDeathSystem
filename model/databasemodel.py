@@ -1,32 +1,14 @@
 import sys
-import json
-from PyQt5.QtWidgets import (
-    QApplication, QWidget, QVBoxLayout, QHBoxLayout, QGridLayout,
-    QLineEdit, QPushButton, QTableView, QLabel, QMessageBox,
-    QComboBox, QDateEdit, QSpinBox, QHeaderView, QStackedWidget
-)
-from PyQt5.QtSql import QSqlDatabase, QSqlTableModel, QSqlQuery
-from PyQt5.QtCore import Qt, QDate, pyqtSignal, QObject
-from PyQt5.QtGui import QFont, QFontMetrics
-
+from PyQt5.QtWidgets import QMessageBox
+from PyQt5.QtSql import QSqlDatabase, QSqlQuery
 from openconfig import openconfig
 
-# ================================================================
-# Konfiguration laden
-# ================================================================
-
 GENERATOR_CONFIG = openconfig()
-
 
 def get_sql_type(attr_type):
     if attr_type == "number":
         return "INTEGER"
     return "TEXT"
-
-
-# =============================================================================
-# MODEL
-# =============================================================================
 
 class DatabaseModel:
     """Kapselt die Datenbankverbindung und stellt Methoden zur Tabellenerstellung bereit."""
@@ -49,6 +31,7 @@ class DatabaseModel:
     def create_table(self, table_name, attributes):
         query = QSqlQuery(self.db)
         column_defs = []
+        # Erstelle die Spalten aus den übergebenen Attributen.
         for attr in attributes:
             sql_type = get_sql_type(attr["type"])
             col_def = f'"{attr["name"]}" {sql_type}'
@@ -61,6 +44,9 @@ class DatabaseModel:
                 else:
                     col_def += f" DEFAULT '{default_val}'"
             column_defs.append(col_def)
+        # Füge die adddate-Spalte hinzu – hier ohne SQLite-Default, weil wir den Wert bei Einfügen in Python setzen.
+        column_defs.append('"adddate" TEXT NOT NULL')
+
         columns_sql = ", ".join(column_defs)
         sql = f"""
         CREATE TABLE IF NOT EXISTS {table_name} (
@@ -70,6 +56,5 @@ class DatabaseModel:
         """
         if not query.exec(sql):
             QMessageBox.critical(None, "خطأ في قاعدة البيانات",
-                                 f"خطأ أثناء إنشاء الجدول {table_name}:\n{query.lastError().text()}")
+                                 f"Fehler beim Erstellen der Tabelle {table_name}:\n{query.lastError().text()}")
             sys.exit(1)
-

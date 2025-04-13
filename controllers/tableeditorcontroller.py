@@ -1,24 +1,15 @@
-
-
-from model.databasemodel import DatabaseModel
-from model.tabledatamodel import TableDataModel
-
-
+import contextlib
 import os
-
 import shutil
-from PyQt5.QtWidgets import (QMessageBox, QFileDialog
-)
+import sys
+from datetime import datetime
+from PyQt5.QtWidgets import QMessageBox, QFileDialog
 from PyQt5.QtSql import QSqlTableModel
-from PyQt5.QtCore import QObject
-
+from PyQt5.QtCore import QObject, Qt
 from docxtpl import DocxTemplate
 from docx2pdf import convert
-
-# ================================================================
-# Konfiguration laden
-# ================================================================
-
+from model.databasemodel import DatabaseModel
+from model.tabledatamodel import TableDataModel
 
 class TableEditorController(QObject):
     def __init__(self, view, table_name, attributes, attributes_without, db, config, main_window):
@@ -36,6 +27,7 @@ class TableEditorController(QObject):
         self.connect_signals()
 
     def setup_model(self):
+        # Erstelle die Tabelle (inklusive "adddate") falls noch nicht vorhanden.
         DatabaseModel(self.config).create_table(self.table_name, self.attributes_without)
         self.model = TableDataModel(self.attributes_without, self.view, self.db)
         self.model.setTable(self.table_name)
@@ -99,14 +91,17 @@ class TableEditorController(QObject):
     def add_entry(self):
         record = self.model.record()
         data = self.view.get_input_values()
+        # Fülle alle Eingabefelder in den neuen Datensatz
         for attr in self.attributes_without:
-            value = data[attr["name"]]
+            value = data.get(attr["name"], "")
             if not value and "default" in attr:
                 value = attr["default"]
             if attr.get("not_null", False) and not value:
                 QMessageBox.warning(self.view, "خطأ", f"حقل {attr['label']} لا يمكن أن يكون فارغاً!")
                 return
             record.setValue(attr["name"], value)
+        # Setze automatisch die adddate-Spalte mit dem aktuellen Datum
+        record.setValue("adddate", datetime.now().strftime("%Y-%m-%d"))
         if not self.model.insertRecord(-1, record):
             QMessageBox.critical(self.view, "خطأ", "لم يتم إضافة السجل!")
         elif self.model.submitAll():
@@ -128,13 +123,14 @@ class TableEditorController(QObject):
             return
         data = self.view.get_input_values()
         for attr in self.attributes_without:
-            value = data[attr["name"]]
+            value = data.get(attr["name"], "")
             if not value and "default" in attr:
                 value = attr["default"]
             if attr.get("not_null", False) and not value:
                 QMessageBox.warning(self.view, "خطأ", f"حقل {attr['label']} لا يمكن أن يكون فارغاً!")
                 return
             self.model.setData(self.model.index(row_to_update, self.model.fieldIndex(attr["name"])), value)
+        # Beim Update bleibt "adddate" unverändert.
         if not self.model.submitAll():
             QMessageBox.critical(self.view, "خطأ", "لم يتم تحديث السجل!")
         else:
@@ -166,46 +162,48 @@ class TableEditorController(QObject):
                 QMessageBox.critical(self.view, "خطأ", "خطأ أثناء الحذف!")
 
     def print_record(self):
-        # Prüfe, ob ein Datensatz ausgewählt wurde.
         if self.selected_record_id is None:
             QMessageBox.warning(self.view, "خطأ", "يرجى اختيار سجل أولاً!")
             return
 
-        # Hole den aktuellen Datensatz aus den Eingabefeldern.
         context = self.view.get_input_values()
-
-        # Bestimme den Pfad der Vorlage (Ordner "vorlagen" + Tabellenname.docx)
         template_path = os.path.join("vorlagen", f"{self.view.print_dropdown.currentText()}.docx")
         if not os.path.exists(template_path):
             QMessageBox.warning(self.view, "خطأ", f"لم يتم العثور على القالب: {template_path}")
             return
 
         try:
-            # Lade und render die Vorlage
+            # Dokument laden, Kontext einfügen und temporäres Docx erzeugen
             doc = DocxTemplate(template_path)
             doc.render(context)
-
-            # Speichere das ausgefüllte Dokument als temporäres DOCX
             temp_docx = "temp_filled.docx"
             doc.save(temp_docx)
 
-            # Konvertiere das temporäre DOCX in PDF
             temp_pdf = "temp_filled.pdf"
-            convert(temp_docx, temp_pdf)
 
-            # Öffne einen Dialog, um den Speicherort des PDFs zu wählen
+            # Sicherstellen, dass stdout und stderr nicht None sind (wichtig im windowed Modus)
+            if sys.stdout is None:
+                sys.stdout = open(os.devnull, 'w')
+            if sys.stderr is None:
+                sys.stderr = open(os.devnull, 'w')
+
+            # stdout und stderr temporär in os.devnull umleiten, um Ausgaben von docx2pdf zu unterdrücken
+            with open(os.devnull, 'w') as fnull:
+                with contextlib.redirect_stdout(fnull), contextlib.redirect_stderr(fnull):
+                    convert(temp_docx, temp_pdf)
+
+            # PDF-Speicher-Dialog
             save_path, _ = QFileDialog.getSaveFileName(self.view, "احفظ ملف PDF", "", "PDF Dateien (*.pdf)")
             if save_path:
                 shutil.copyfile(temp_pdf, save_path)
                 QMessageBox.information(self.view, "نجاح", f"تم حفظ ملف PDF بنجاح في:\n{save_path}")
 
-            # Aufräumen: Entferne temporäre Dateien
+            # Temporäre Dateien entfernen
             if os.path.exists(temp_docx):
                 os.remove(temp_docx)
             if os.path.exists(temp_pdf):
                 os.remove(temp_pdf)
         except Exception as e:
             QMessageBox.critical(self.view, "خطأ", f"خطأ أثناء الطباعة:\n{str(e)}")
-
     def go_back(self):
         self.main_window.go_to_main_menu()
