@@ -4,7 +4,8 @@ import sys
 import json
 from PyQt5.QtWidgets import (
     QApplication, QWidget, QVBoxLayout,
-    QPushButton, QLabel, QStackedWidget, QDialog, QLineEdit, QDateEdit, QHBoxLayout
+    QPushButton, QLabel, QStackedWidget, QDialog, QLineEdit, QDateEdit, QHBoxLayout, QSizePolicy, QGridLayout,
+    QScrollArea
 )
 
 from PyQt5.QtCore import Qt, pyqtSignal, QObject, QDate
@@ -45,19 +46,80 @@ class MainMenuView(QWidget):
         self.setup_ui()
 
     def setup_ui(self):
-        layout = QVBoxLayout(self)
+        main_layout = QVBoxLayout(self)
+        main_layout.setSpacing(15)
+        main_layout.setContentsMargins(20, 20, 20, 20)
+
+        # Titel
         label = QLabel("اختر الجدول:")
-        layout.addWidget(label)
-        for table_name in self.config["tables"]:
-            btn = QPushButton(table_name)
+        label.setAlignment(Qt.AlignCenter)
+        label.setStyleSheet("""
+            QLabel {
+                font-size: 20px;
+                font-weight: bold;
+                color: rgb(212, 175, 55);
+                margin-bottom: 20px;
+            }
+        """)
+        main_layout.addWidget(label)
+
+        # Scroll-Bereich für Buttons
+        scroll_area = QScrollArea()
+        scroll_area.setWidgetResizable(True)
+        scroll_area.setFrameShape(QScrollArea.NoFrame)
+
+        scroll_content = QWidget()
+        scroll_layout = QGridLayout(scroll_content)
+        scroll_layout.setSpacing(15)
+
+        # Dynamische Tabellen-Buttons
+        row, col = 0, 0
+        for idx, table_name in enumerate(self.config["tables"]):
+            btn = QPushButton(table_name.replace("_", " "))
             btn.setMinimumSize(self.config["ui"]["button_width"], self.config["ui"]["button_height"])
+            btn.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+            btn.setStyleSheet("""
+                QPushButton {
+                    background-color: rgb(52, 52, 52);
+                    color: rgb(212, 175, 55);
+                    border: 3px solid rgb(212, 175, 55);
+                    border-radius: 20px;
+                    padding: 200px;
+                    font-size: 30px;
+                }
+                QPushButton:hover {
+                    background-color: rgb(70, 70, 70);
+                }
+            """)
             btn.clicked.connect(lambda checked, tn=table_name, conf=json.dumps(self.config["tables"][table_name]):
                                 self.tableSelected.emit(tn, conf))
-            layout.addWidget(btn)
+            scroll_layout.addWidget(btn, row, col)
+            col += 1
+            if col >= 2:
+                col = 0
+                row += 1
 
-        self.report_btn = QPushButton("تقرير_الأحوال_المدنية")
+        scroll_content.setLayout(scroll_layout)
+        scroll_area.setWidget(scroll_content)
+        main_layout.addWidget(scroll_area)
+
+        # Button für Bericht
+        self.report_btn = QPushButton("تقرير الأحوال المدنية")
         self.report_btn.setMinimumSize(self.config["ui"]["button_width"], self.config["ui"]["button_height"])
-        layout.addWidget(self.report_btn)
+        self.report_btn.setStyleSheet("""
+            QPushButton {
+                background-color: rgb(32, 100, 188);
+                color: white;
+                border: 2px solid white;
+                border-radius: 10px;
+                padding: 10px;
+                font-size: 16px;
+            }
+            QPushButton:hover {
+                background-color: rgb(50, 120, 210);
+            }
+        """)
+        main_layout.addWidget(self.report_btn, alignment=Qt.AlignCenter)
 
     def closeEvent(self, event):
         QApplication.quit()
