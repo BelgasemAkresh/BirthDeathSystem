@@ -311,12 +311,6 @@
                 "not_null": false
             },
             {
-                "name": "datum",
-                "label": "تاريخ القيد",
-                "type": "date",
-                "not_null": true
-            },
-            {
                 "name": "sex",
                 "label": "جنس المولود",
                 "type": "dropdown",
@@ -332,6 +326,17 @@
                 "type": "text",
                 "not_null": true,
                 "default": "لا يوجد"
+            },
+            {
+                "name": "breakline",
+                "label": "print",
+                "type": "dropdown",
+                "not_null": false,
+                "options": [
+                    "تصريح_بالدفن",
+                    "سجل_واقعات_الوفاة",
+                    "شهادة_الوفاة"
+                ]
             }
         ],
         "سجل_واقعات_الولادة": [

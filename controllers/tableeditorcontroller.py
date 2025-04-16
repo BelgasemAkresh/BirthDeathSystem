@@ -167,6 +167,12 @@ class TableEditorController(QObject):
             return
 
         context = self.view.get_input_values()
+
+        # Heutiges Datum im gewünschten Format
+        heutiges_datum = datetime.today().strftime('%d-%m-%Y')
+        # Füge es dem Dictionary hinzu
+        context['datum'] = heutiges_datum
+
         template_path = os.path.join("vorlagen", f"{self.view.print_dropdown.currentText()}.docx")
         if not os.path.exists(template_path):
             QMessageBox.warning(self.view, "خطأ", f"لم يتم العثور على القالب: {template_path}")
