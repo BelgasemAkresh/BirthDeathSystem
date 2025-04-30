@@ -1,6 +1,6 @@
 import json
 from PyQt5.QtWidgets import (
-    QWidget, QVBoxLayout, QHBoxLayout, QLineEdit, QPushButton, QLabel
+    QWidget, QVBoxLayout, QHBoxLayout, QLineEdit, QPushButton, QLabel, QApplication
 )
 from PyQt5.QtGui import QPixmap, QFont
 from PyQt5.QtCore import Qt, pyqtSignal
@@ -94,18 +94,30 @@ class PasswordView(QWidget):
         password_input_layout.addStretch()
         login_panel_layout.addLayout(password_input_layout)
 
-        # Login-Button (zentriert)
+        # Login- und Exit-Buttons (nebeneinander zentriert, gleicher Stil)
         button_layout = QHBoxLayout()
-        self.login_button = QPushButton('تسجيل الدخول')
+
         btn_width = self.config["ui"].get("button_width", 200)
         btn_height = self.config["ui"].get("button_height", 40)
-        self.login_button.setFixedSize(btn_width, btn_height)
         button_font = QFont("Arial", 12)
+
+        self.login_button = QPushButton('تسجيل الدخول')
+        self.login_button.setFixedSize(btn_width, btn_height)
         self.login_button.setFont(button_font)
+
+        self.exit_button = QPushButton('خروج')
+        self.exit_button.setFixedSize(btn_width, btn_height)
+        self.exit_button.setFont(button_font)
+
+        # Layout-Anordnung
         button_layout.addStretch()
         button_layout.addWidget(self.login_button)
+        button_layout.addSpacing(20)  # Abstand zwischen Buttons
+        button_layout.addWidget(self.exit_button)
         button_layout.addStretch()
+
         login_panel_layout.addLayout(button_layout)
+        self.exit_button.clicked.connect(QApplication.quit)
 
         # Button-Signal verbinden
         self.login_button.clicked.connect(self.on_button_clicked)

@@ -103,23 +103,48 @@ class MainMenuView(QWidget):
         scroll_area.setWidget(scroll_content)
         main_layout.addWidget(scroll_area)
 
-        # Button für Bericht
-        self.report_btn = QPushButton("تقرير الأحوال المدنية")
+        # Bericht- und خروج-Buttons in ein horizontales Layout
+        button_layout = QHBoxLayout()
+
+        # Bericht-Button
+        self.report_btn = QPushButton("إحصائية: تقرير الأحوال المدنية")
         self.report_btn.setMinimumSize(self.config["ui"]["button_width"], self.config["ui"]["button_height"])
         self.report_btn.setStyleSheet("""
             QPushButton {
                 background-color: rgb(32, 100, 188);
                 color: white;
-                border: 2px solid white;
-                border-radius: 10px;
-                padding: 10px;
-                font-size: 16px;
+                border: 3px solid white;
+                border-radius: 15px;
+                padding: 15px;
+                font-size: 25px;
             }
             QPushButton:hover {
                 background-color: rgb(50, 120, 210);
             }
         """)
-        main_layout.addWidget(self.report_btn, alignment=Qt.AlignCenter)
+        button_layout.addWidget(self.report_btn)
+
+        # خروج-Button
+        self.exit_btn = QPushButton("خروج")
+        self.exit_btn.setMinimumSize(self.config["ui"]["button_width"], self.config["ui"]["button_height"])
+        self.exit_btn.setStyleSheet("""
+            QPushButton {
+                background-color: rgb(180, 50, 50);
+                color: white;
+                border: 3px solid white;
+                border-radius: 15px;
+                padding: 15px;
+                font-size: 25px;
+            }
+            QPushButton:hover {
+                background-color: rgb(200, 70, 70);
+            }
+        """)
+        self.exit_btn.clicked.connect(QApplication.quit)
+        button_layout.addWidget(self.exit_btn)
+
+        # Button-Layout zum Hauptlayout hinzufügen
+        main_layout.addLayout(button_layout)
 
     def closeEvent(self, event):
         QApplication.quit()
