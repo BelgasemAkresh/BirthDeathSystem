@@ -354,9 +354,303 @@
             },
             {
                 "name": "buchNr",
-                "label": "رقم ورقة العائلة",
+                "label": "رقم ورقة عائلة الزوج",
                 "type": "text",
                 "not_null": true
+            },
+            {
+                "name": "pageNr",
+                "label": "ص",
+                "type": "number",
+                "not_null": false
+            },
+            {
+                "name": "tag",
+                "label": "اليوم",
+                "type": "dropdown",
+                "not_null": true,
+                "options": [
+                    "الأول",
+                    "الثاني",
+                    "الثالث",
+                    "الرابع",
+                    "الخامس",
+                    "السادس",
+                    "السابع",
+                    "الثامن",
+                    "التاسع",
+                    "العاشر",
+                    "الحادي عشر",
+                    "الثاني عشر",
+                    "الثالث عشر",
+                    "الرابع عشر",
+                    "الخامس عشر",
+                    "السادس عشر",
+                    "السابع عشر",
+                    "الثامن عشر",
+                    "التاسع عشر",
+                    "العشرون",
+                    "الحادي والعشرون",
+                    "الثاني والعشرون",
+                    "الثالث والعشرون",
+                    "الرابع والعشرون",
+                    "الخامس والعشرون",
+                    "السادس والعشرون",
+                    "السابع والعشرون",
+                    "الثامن والعشرون",
+                    "التاسع والعشرون",
+                    "الثلاثون",
+                    "الحادي والثلاثون"
+                ]
+            },
+            {
+                "name": "monat",
+                "label": "الشهر",
+                "type": "dropdown",
+                "not_null": true,
+                "options": [
+                    "يناير",
+                    "فبراير",
+                    "مارس",
+                    "أبريل",
+                    "مايو",
+                    "يونيو",
+                    "يوليو",
+                    "أغسطس",
+                    "سبتمبر",
+                    "أكتوبر",
+                    "نوفمبر",
+                    "ديسمبر"
+                ]
+            },
+            {
+                "name": "jahr",
+                "label": "السنة",
+                "type": "dropdown",
+                "not_null": true,
+                "options": [
+                    "ألفان وأربعة وعشرون",
+                    "ألفان وخمسة وعشرون",
+                    "ألفان وستة وعشرون",
+                    "ألفان وسبعة وعشرون",
+                    "ألفان وثمانية وعشرون"
+                ]
+            },
+            {
+                "name": "Uhr",
+                "label": "الساعة",
+                "type": "text",
+                "not_null": true
+            },
+            {
+                "name": "beamteA",
+                "label": "أنا",
+                "type": "text",
+                "not_null": true
+            },
+            {
+                "name": "beamteB",
+                "label": "تسلمت من",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "beBnachname",
+                "label": "اللقب",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "passNr",
+                "label": "رقم جوازسفر",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "issueDate",
+                "label": "تاريخ الصدور",
+                "type": "date",
+                "not_null": false
+            },
+            {
+                "name": "issueOrt",
+                "label": "جهة الصدور",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "address",
+                "label": "محل الأقامة",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "mname",
+                "label": "اسم المطلق",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "mnach",
+                "label": "اللقب",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "mnat",
+                "label": "الجنسية",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "mrel",
+                "label": "الدين",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "mage",
+                "label": "بالغ من العمر",
+                "type": "number",
+                "not_null": false
+            },
+            {
+                "name": "mwork",
+                "label": "المهنة",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "mdate",
+                "label": "تاريخ الميلاد",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "mort",
+                "label": "محل الأقامة",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "mpassNr",
+                "label": "رقم جواز سفر",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "mort2",
+                "label": "محل الأقامة",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "missueort",
+                "label": "جهة الصدور",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "mmutna",
+                "label": "اسم والد المطلق",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "mmutort",
+                "label": "محل اقامته",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "fname",
+                "label": "اسم المطلقة",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "fnach",
+                "label": "اللقب",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "fnat",
+                "label": "الجنسية",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "frel",
+                "label": "الدين",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "fage",
+                "label": "بالغة من العمر",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "fwork",
+                "label": "المهنة",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "fdate",
+                "label": "تاريخ الميلاد",
+                "type": "date",
+                "not_null": false
+            },
+            {
+                "name": "fort2",
+                "label": "محل الأقامة",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "fpassNr",
+                "label": "رقم جواز سفر",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "fort2",
+                "label": "محل الأقامة",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "fissueort",
+                "label": "جهة الصدور",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "fmutna",
+                "label": "اسم والد المطلقة",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "fmutort",
+                "label": "محل اقامته",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "scheidate",
+                "label": "قيد الإشهاد في السجل المدني بتاريخ",
+                "type": "date",
+                "not_null": false
+            },
+            {
+                "name": "scheidNr",
+                "label": "تحت رقم",
+                "type": "text",
+                "not_null": false
             }
         ],
         "سجل_واقعات_الوفاة": [
