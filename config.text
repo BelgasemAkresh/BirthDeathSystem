@@ -952,7 +952,7 @@
                 "not_null": false
             },
             {
-                "name": "Atag",
+                "name": "tag",
                 "label": "تاريخ التبليغ - اليوم",
                 "type": "dropdown",
                 "not_null": true,
@@ -991,7 +991,7 @@
                 ]
             },
             {
-                "name": "Amonat",
+                "name": "monat",
                 "label": "الشهر",
                 "type": "dropdown",
                 "not_null": true,
@@ -1011,7 +1011,7 @@
                 ]
             },
             {
-                "name": "Ajahr",
+                "name": "jahr",
                 "label": "السنة",
                 "type": "dropdown",
                 "not_null": true,
@@ -1022,12 +1022,6 @@
                     "ألفان وسبعة وعشرون",
                     "ألفان وثمانية وعشرون"
                 ]
-            },
-            {
-                "name": "Adatum",
-                "label": "الموافق",
-                "type": "date",
-                "not_null": true
             },
             {
                 "name": "breakline",
