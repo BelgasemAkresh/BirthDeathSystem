@@ -18,22 +18,17 @@
                 "not_null": true
             },
             {
-                "name": "breakline",
-                "label": "line",
-                "type": "text",
-                "not_null": false
-            },
-            {
-                "name": "breakline",
-                "label": "line",
-                "type": "text",
-                "not_null": false
-            },
-            {
-                "name": "ort",
-                "label": "في مدينة",
+                "name": "buchNr",
+                "label": "رقم ورقة العائلة",
                 "type": "text",
                 "not_null": true
+            },
+            {
+                "name": "jahr",
+                "label": "في سنة",
+                "type": "number",
+                "not_null": true,
+                "default": "12"
             },
             {
                 "name": "tag",
@@ -48,35 +43,22 @@
                 "not_null": true
             },
             {
-                "name": "jahr",
-                "label": "سنة",
-                "type": "number",
-                "not_null": true,
-                "default": "2025"
-            },
-            {
-                "name": "breakline",
-                "label": "line",
+                "name": "ort",
+                "label": "في",
                 "type": "text",
-                "not_null": false
-            },
-            {
-                "name": "breakline",
-                "label": "line",
-                "type": "text",
-                "not_null": false
-            },
-            {
-                "name": "breakline",
-                "label": "line",
-                "type": "text",
-                "not_null": false
+                "not_null": true
             },
             {
                 "name": "hvorname",
                 "label": "أسم الزوج",
                 "type": "text",
                 "not_null": true
+            },
+            {
+                "name": "breakline",
+                "label": "breakline",
+                "type": "date",
+                "not_null": false
             },
             {
                 "name": "hnachname",
@@ -88,8 +70,7 @@
                 "name": "hreligion",
                 "label": "ديانته",
                 "type": "text",
-                "not_null": true,
-                "default": "الأسلام"
+                "not_null": true
             },
             {
                 "name": "halte",
@@ -140,18 +121,6 @@
                 "not_null": false
             },
             {
-                "name": "breakline",
-                "label": "line",
-                "type": "text",
-                "not_null": false
-            },
-            {
-                "name": "breakline",
-                "label": "line",
-                "type": "text",
-                "not_null": false
-            },
-            {
                 "name": "wvorname",
                 "label": "أسم الزوجة",
                 "type": "text",
@@ -164,11 +133,16 @@
                 "not_null": true
             },
             {
+                "name": "breakline",
+                "label": "breakline",
+                "type": "date",
+                "not_null": false
+            },
+            {
                 "name": "wreligion",
                 "label": "ديانتها",
                 "type": "text",
-                "not_null": true,
-                "default": "الأسلام"
+                "not_null": true
             },
             {
                 "name": "walte",
@@ -180,8 +154,7 @@
                 "name": "wberuf",
                 "label": "مهنتها",
                 "type": "text",
-                "not_null": false,
-                "default": "ربة بيت"
+                "not_null": false
             },
             {
                 "name": "breakline",
@@ -220,18 +193,6 @@
                 "not_null": true
             },
             {
-                "name": "breakline",
-                "label": "breakline",
-                "type": "date",
-                "not_null": false
-            },
-            {
-                "name": "breakline",
-                "label": "line",
-                "type": "text",
-                "not_null": false
-            },
-            {
                 "name": "wnameMutter",
                 "label": "أسم والدة الزوجة",
                 "type": "text",
@@ -244,20 +205,14 @@
                 "not_null": false
             },
             {
-                "name": "wadresseEltern",
-                "label": "محل أقامه والد والدة الزوجة",
-                "type": "text",
-                "not_null": false
-            },
-            {
                 "name": "breakline",
-                "label": "breakline",
+                "label": "line",
                 "type": "date",
                 "not_null": false
             },
             {
-                "name": "breakline",
-                "label": "line",
+                "name": "wadresseEltern",
+                "label": "محل أقامه والد والدة الزوجة",
                 "type": "text",
                 "not_null": false
             },
@@ -356,26 +311,21 @@
                 "not_null": false
             },
             {
-                "name": "Svorname",
-                "label": "أسم المتوفي ثلاثي",
-                "type": "text",
-                "not_null": true
-            },
-            {
-                "name": "Snachname",
-                "label": "اللقب",
-                "type": "text",
-                "not_null": true
-            },
-            {
                 "name": "sex",
-                "label": "الجنس",
+                "label": "جنس المولود",
                 "type": "dropdown",
                 "not_null": true,
                 "options": [
                     "أنثى",
                     "ذكر"
                 ]
+            },
+            {
+                "name": "notes",
+                "label": "ملاحظات",
+                "type": "text",
+                "not_null": true,
+                "default": "لا يوجد"
             },
             {
                 "name": "breakline",
@@ -387,240 +337,6 @@
                     "سجل_واقعات_الوفاة",
                     "شهادة_الوفاة"
                 ]
-            },
-            {
-                "name": "Salte",
-                "label": "السن",
-                "type": "text",
-                "not_null": true
-            },
-            {
-                "name": "Sberuf",
-                "label": "مهنته",
-                "type": "text",
-                "not_null": true
-            },
-            {
-                "name": "Sreligion",
-                "label": "الدين",
-                "type": "text",
-                "not_null": true
-            },
-            {
-                "name": "Sgdatum",
-                "label": "تاريخ الميلاد",
-                "type": "text",
-                "not_null": true
-            },
-            {
-                "name": "Sgort",
-                "label": "الميلاد",
-                "type": "text",
-                "not_null": false
-            },
-            {
-                "name": "Sgrund",
-                "label": "أسباب الوفاة",
-                "type": "text",
-                "not_null": false
-            },
-            {
-                "name": "suhr",
-                "label": "تاريخ الوفاة/الساعة",
-                "type": "text",
-                "not_null": false
-            },
-            {
-                "name": "stag",
-                "label": "تاريخ الولادة - اليوم",
-                "type": "dropdown",
-                "not_null": true,
-                "options": [
-                    "الأول",
-                    "الثاني",
-                    "الثالث",
-                    "الرابع",
-                    "الخامس",
-                    "السادس",
-                    "السابع",
-                    "الثامن",
-                    "التاسع",
-                    "العاشر",
-                    "الحادي عشر",
-                    "الثاني عشر",
-                    "الثالث عشر",
-                    "الرابع عشر",
-                    "الخامس عشر",
-                    "السادس عشر",
-                    "السابع عشر",
-                    "الثامن عشر",
-                    "التاسع عشر",
-                    "العشرون",
-                    "الحادي والعشرون",
-                    "الثاني والعشرون",
-                    "الثالث والعشرون",
-                    "الرابع والعشرون",
-                    "الخامس والعشرون",
-                    "السادس والعشرون",
-                    "السابع والعشرون",
-                    "الثامن والعشرون",
-                    "التاسع والعشرون",
-                    "الثلاثون",
-                    "الحادي والثلاثون"
-                ]
-            },
-            {
-                "name": "smonat",
-                "label": "الشهر",
-                "type": "dropdown",
-                "not_null": true,
-                "options": [
-                    "يناير",
-                    "فبراير",
-                    "مارس",
-                    "أبريل",
-                    "مايو",
-                    "يونيو",
-                    "يوليو",
-                    "أغسطس",
-                    "سبتمبر",
-                    "أكتوبر",
-                    "نوفمبر",
-                    "ديسمبر"
-                ]
-            },
-            {
-                "name": "sjahr",
-                "label": "السنة",
-                "type": "dropdown",
-                "not_null": true,
-                "options": [
-                    "ألفان وأربعة وعشرون",
-                    "ألفان وخمسة وعشرون",
-                    "ألفان وستة وعشرون",
-                    "ألفان وسبعة وعشرون",
-                    "ألفان وثمانية وعشرون"
-                ]
-            },
-            {
-                "name": "Sort",
-                "label": "مكان الوفاة",
-                "type": "text",
-                "not_null": false
-            },
-            {
-                "name": "nameCenter",
-                "label": "الجهة التي قامت بالتبليغ (يذكر الأسم و العنوان)",
-                "type": "text",
-                "not_null": true
-            },
-            {
-                "name": "SvorMutter",
-                "label": "أسم والدة المتوفي",
-                "type": "text",
-                "not_null": true
-            },
-            {
-                "name": "SnachMutter",
-                "label": "اللقب",
-                "type": "text",
-                "not_null": true
-            },
-            {
-                "name": "beamtername",
-                "label": "أسم الموظف",
-                "type": "text",
-                "not_null": true
-            },
-            {
-                "name": "beamterkennung",
-                "label": "الصفة",
-                "type": "text",
-                "not_null": true
-            },
-            {
-                "name": "verdatum",
-                "label": "تاريخ القيد",
-                "type": "date",
-                "not_null": false
-            },
-                        {
-                "name": "tag",
-                "label": "تاريخ الولادة - اليوم",
-                "type": "dropdown",
-                "not_null": true,
-                "options": [
-                    "الأول",
-                    "الثاني",
-                    "الثالث",
-                    "الرابع",
-                    "الخامس",
-                    "السادس",
-                    "السابع",
-                    "الثامن",
-                    "التاسع",
-                    "العاشر",
-                    "الحادي عشر",
-                    "الثاني عشر",
-                    "الثالث عشر",
-                    "الرابع عشر",
-                    "الخامس عشر",
-                    "السادس عشر",
-                    "السابع عشر",
-                    "الثامن عشر",
-                    "التاسع عشر",
-                    "العشرون",
-                    "الحادي والعشرون",
-                    "الثاني والعشرون",
-                    "الثالث والعشرون",
-                    "الرابع والعشرون",
-                    "الخامس والعشرون",
-                    "السادس والعشرون",
-                    "السابع والعشرون",
-                    "الثامن والعشرون",
-                    "التاسع والعشرون",
-                    "الثلاثون",
-                    "الحادي والثلاثون"
-                ]
-            },
-            {
-                "name": "monat",
-                "label": "الشهر",
-                "type": "dropdown",
-                "not_null": true,
-                "options": [
-                    "يناير",
-                    "فبراير",
-                    "مارس",
-                    "أبريل",
-                    "مايو",
-                    "يونيو",
-                    "يوليو",
-                    "أغسطس",
-                    "سبتمبر",
-                    "أكتوبر",
-                    "نوفمبر",
-                    "ديسمبر"
-                ]
-            },
-            {
-                "name": "jahr",
-                "label": "السنة",
-                "type": "dropdown",
-                "not_null": true,
-                "options": [
-                    "ألفان وأربعة وعشرون",
-                    "ألفان وخمسة وعشرون",
-                    "ألفان وستة وعشرون",
-                    "ألفان وسبعة وعشرون",
-                    "ألفان وثمانية وعشرون"
-                ]
-            },
-            {
-                "name": "notes",
-                "label": "ملاحظات",
-                "type": "text",
-                "not_null": false
             }
         ],
         "سجل_واقعات_الولادة": [
@@ -881,88 +597,10 @@
                 "not_null": false
             },
             {
-                "name": "Atag",
-                "label": "تاريخ التبليغ - اليوم",
-                "type": "dropdown",
-                "not_null": true,
-                "options": [
-                    "الأول",
-                    "الثاني",
-                    "الثالث",
-                    "الرابع",
-                    "الخامس",
-                    "السادس",
-                    "السابع",
-                    "الثامن",
-                    "التاسع",
-                    "العاشر",
-                    "الحادي عشر",
-                    "الثاني عشر",
-                    "الثالث عشر",
-                    "الرابع عشر",
-                    "الخامس عشر",
-                    "السادس عشر",
-                    "السابع عشر",
-                    "الثامن عشر",
-                    "التاسع عشر",
-                    "العشرون",
-                    "الحادي والعشرون",
-                    "الثاني والعشرون",
-                    "الثالث والعشرون",
-                    "الرابع والعشرون",
-                    "الخامس والعشرون",
-                    "السادس والعشرون",
-                    "السابع والعشرون",
-                    "الثامن والعشرون",
-                    "التاسع والعشرون",
-                    "الثلاثون",
-                    "الحادي والثلاثون"
-                ]
-            },
-            {
-                "name": "Amonat",
-                "label": "الشهر",
-                "type": "dropdown",
-                "not_null": true,
-                "options": [
-                    "يناير",
-                    "فبراير",
-                    "مارس",
-                    "أبريل",
-                    "مايو",
-                    "يونيو",
-                    "يوليو",
-                    "أغسطس",
-                    "سبتمبر",
-                    "أكتوبر",
-                    "نوفمبر",
-                    "ديسمبر"
-                ]
-            },
-            {
-                "name": "Ajahr",
-                "label": "السنة",
-                "type": "dropdown",
-                "not_null": true,
-                "options": [
-                    "ألفان وأربعة وعشرون",
-                    "ألفان وخمسة وعشرون",
-                    "ألفان وستة وعشرون",
-                    "ألفان وسبعة وعشرون",
-                    "ألفان وثمانية وعشرون"
-                ]
-            },
-            {
-                "name": "Adatum",
-                "label": "الموافق",
+                "name": "regdata",
+                "label": "تاريخ التبليغ",
                 "type": "date",
                 "not_null": true
-            },
-            {
-                "name": "breakline",
-                "label": "a",
-                "type": "text",
-                "not_null": false
             },
             {
                 "name": "nameCenter",
@@ -974,7 +612,7 @@
                 "name": "breakline",
                 "label": "line",
                 "type": "text",
-                "not_null": true
+                "not_null": false
             },
             {
                 "name": "breakline",

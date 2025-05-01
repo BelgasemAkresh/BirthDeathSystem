@@ -69,35 +69,38 @@ class PasswordView(QWidget):
         text_label_layout.addStretch()
         main_layout.addLayout(text_label_layout)
 
-        # Passwort-Label (zentriert)
-        label_layout = QHBoxLayout()
+        # Passwort-Zeile mit Label und Eingabefeld (nebeneinander)
+        password_row_layout = QHBoxLayout()
+        password_row_layout.addStretch()
+
         self.label = QLabel('أدخل كلمة المرور:')
         label_font = QFont("Arial", 16)
         self.label.setFont(label_font)
-        label_layout.addStretch()
-        label_layout.addWidget(self.label)
-        label_layout.addStretch()
-        login_panel_layout.addLayout(label_layout)
+        password_row_layout.addWidget(self.label)
 
-        # Passwort-Eingabefeld (zentriert)
-        password_input_layout = QHBoxLayout()
         self.password_input = QLineEdit()
         self.password_input.setEchoMode(QLineEdit.Password)
-        # Verwende konfigurierbare Größen oder Standardwerte (200x40) wie im alten Widget
         input_width = self.config["ui"].get("input_field_width", 200)
         input_height = self.config["ui"].get("input_field_height", 40)
         self.password_input.setFixedSize(input_width, input_height)
         input_font = QFont("Arial", 12)
         self.password_input.setFont(input_font)
-        password_input_layout.addStretch()
-        password_input_layout.addWidget(self.password_input)
-        password_input_layout.addStretch()
-        login_panel_layout.addLayout(password_input_layout)
+        password_row_layout.addWidget(self.password_input)
 
-        # Login- und Exit-Buttons (nebeneinander zentriert, gleicher Stil)
-        button_layout = QHBoxLayout()
+        password_row_layout.addStretch()
+        login_panel_layout.addLayout(password_row_layout)
 
-        btn_width = self.config["ui"].get("button_width", 200)
+        # Abstand zwischen Eingabezeile und Buttons
+        login_panel_layout.addSpacing(10)
+
+        # Layout für Buttons: direkt unter der Eingabezeile, rechtsbündig
+        buttons_under_label_layout = QHBoxLayout()
+        buttons_under_label_layout.addStretch()  # Platz links
+
+        buttons_column = QVBoxLayout()
+        buttons_column.setAlignment(Qt.AlignRight)  # Im RTL-Modus sorgt das für "unter Label"-Platzierung
+
+        btn_width = self.label.sizeHint().width() + self.password_input.width()
         btn_height = self.config["ui"].get("button_height", 40)
         button_font = QFont("Arial", 12)
 
@@ -109,14 +112,15 @@ class PasswordView(QWidget):
         self.exit_button.setFixedSize(btn_width, btn_height)
         self.exit_button.setFont(button_font)
 
-        # Layout-Anordnung
-        button_layout.addStretch()
-        button_layout.addWidget(self.login_button)
-        button_layout.addSpacing(20)  # Abstand zwischen Buttons
-        button_layout.addWidget(self.exit_button)
-        button_layout.addStretch()
+        buttons_column.addWidget(self.login_button)
+        buttons_column.addSpacing(200)
+        buttons_column.addWidget(self.exit_button)
 
-        login_panel_layout.addLayout(button_layout)
+        buttons_under_label_layout.addLayout(buttons_column)
+        buttons_under_label_layout.addStretch()  # Platz rechts
+
+        login_panel_layout.addLayout(buttons_under_label_layout)
+
         self.exit_button.clicked.connect(QApplication.quit)
 
         # Button-Signal verbinden
