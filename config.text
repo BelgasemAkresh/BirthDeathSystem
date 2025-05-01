@@ -18,6 +18,12 @@
                 "not_null": true
             },
             {
+                "name": "buchNr",
+                "label": "رقم ورقة العائلة",
+                "type": "text",
+                "not_null": true
+            },
+            {
                 "name": "breakline",
                 "label": "line",
                 "type": "text",
