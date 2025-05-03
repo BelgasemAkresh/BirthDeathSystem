@@ -60,8 +60,8 @@ class PasswordView(QWidget):
 
         # Überschrift (zentriert)
         text_label_layout = QHBoxLayout()
-        text_label = QLabel('منظومة الأحوال المدنية بالقنصلية العامة في دوسلدورف')
-        header_font = QFont("Arial", 20)
+        text_label = QLabel('منظومة الأحوال المدنية بالقنصلية العامة دوسلدورف')
+        header_font = QFont("Arial", 26)
         text_label.setFont(header_font)
         text_label.setAlignment(Qt.AlignCenter)
         text_label_layout.addStretch()

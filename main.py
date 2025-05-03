@@ -51,7 +51,7 @@ class MainMenuView(QWidget):
         main_layout.setContentsMargins(20, 20, 20, 20)
 
         # Titel
-        label = QLabel("اختر الجدول:")
+        label = QLabel("سجلات الاحوال المدنية")
         label.setAlignment(Qt.AlignCenter)
         label.setStyleSheet("""
             QLabel {
@@ -111,7 +111,7 @@ class MainMenuView(QWidget):
         self.report_btn.setMinimumSize(self.config["ui"]["button_width"], self.config["ui"]["button_height"])
         self.report_btn.setStyleSheet("""
             QPushButton {
-                background-color: rgb(32, 100, 188);
+                background-color: rgb(110, 110, 110);
                 color: white;
                 border: 3px solid white;
                 border-radius: 15px;
@@ -129,7 +129,7 @@ class MainMenuView(QWidget):
         self.exit_btn.setMinimumSize(self.config["ui"]["button_width"], self.config["ui"]["button_height"])
         self.exit_btn.setStyleSheet("""
             QPushButton {
-                background-color: rgb(180, 50, 50);
+                background-color: rgb(110, 110, 110);
                 color: white;
                 border: 3px solid white;
                 border-radius: 15px;
