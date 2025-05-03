@@ -294,8 +294,20 @@ class TableEditorView(QWidget):
     def clear_inputs(self):
         """Setzt alle Eingabefelder zurück."""
         for attr in self.attributes_without:
-            widget = self.input_widgets[attr["name"]]
-            self.set_widget_value(widget, attr["type"], attr.get("default", ""))
+            name = attr["name"]
+            widget = self.input_widgets[name]
+            attr_type = attr["type"]
+
+            if attr_type == "date":
+                widget.setDate(QDate.currentDate())
+            elif attr_type == "number":
+                widget.setValue(0)
+            elif attr_type == "dropdown":
+                widget.setCurrentIndex(0 if widget.count() > 0 else -1)
+            elif attr_type == "text":
+                widget.setText(attr.get("default", ""))
+            else:
+                self.set_widget_value(widget, attr_type, attr.get("default", ""))
 
         self.selected_record_id = None
         self.add_button.setVisible(True)
