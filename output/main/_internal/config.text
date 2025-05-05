@@ -37,7 +37,7 @@
             },
             {
                 "name": "tag",
-                "label": "تاريخ الولادة - اليوم",
+                "label": "اليوم",
                 "type": "dropdown",
                 "not_null": true,
                 "options": [
@@ -100,12 +100,33 @@
                 "type": "dropdown",
                 "not_null": true,
                 "options": [
+                    "ألفان وأربعة عشر",
+                    "ألفان وخمسة عشر",
+                    "ألفان وستة عشر",
+                    "ألفان وسبعة عشر",
+                    "ألفان وثمانية عشر",
+                    "ألفان وتسعة عشر",
+                    "ألفان وعشرون",
+                    "ألفان وواحد وعشرون",
+                    "ألفان واثنان وعشرون",
+                    "ألفان وثلاثة وعشرون",
                     "ألفان وأربعة وعشرون",
                     "ألفان وخمسة وعشرون",
                     "ألفان وستة وعشرون",
                     "ألفان وسبعة وعشرون",
-                    "ألفان وثمانية وعشرون"
+                    "ألفان وثمانية وعشرون",
+                    "ألفان وتسعة وعشرون",
+                    "ألفان وثلاثون",
+                    "ألفان وواحد وثلاثون",
+                    "ألفان واثنان وثلاثون",
+                    "ألفان وثلاثة وثلاثون"
                 ]
+            },
+            {
+                "name": "HDtu",
+                "label": "الموافق",
+                "type": "date",
+                "not_null": true
             },
             {
                 "name": "ort",
@@ -153,8 +174,9 @@
             {
                 "name": "halte",
                 "label": "البالغ من العمر",
-                "type": "number",
-                "not_null": false
+                "type": "age",
+                "not_null": false,
+                "default": "hgdatum"
             },
             {
                 "name": "hberuf",
@@ -241,12 +263,6 @@
                 "type": "text",
                 "not_null": false,
                 "default": "ربة بيت"
-            },
-            {
-                "name": "breakline",
-                "label": "line",
-                "type": "date",
-                "not_null": false
             },
             {
                 "name": "wgdatum",
@@ -342,7 +358,8 @@
                 "name": "beamterkennung",
                 "label": "الصفة",
                 "type": "text",
-                "not_null": true
+                "not_null": true,
+                "default": "مسؤول الشؤون القنصلية"
             }
         ],
         "سجل_واقعات_الطلاق": [
@@ -362,6 +379,12 @@
                 "name": "pageNr",
                 "label": "ص",
                 "type": "number",
+                "not_null": false
+            },
+            {
+                "name": "breakline",
+                "label": "line",
+                "type": "text",
                 "not_null": false
             },
             {
@@ -429,11 +452,26 @@
                 "type": "dropdown",
                 "not_null": true,
                 "options": [
+                    "ألفان وأربعة عشر",
+                    "ألفان وخمسة عشر",
+                    "ألفان وستة عشر",
+                    "ألفان وسبعة عشر",
+                    "ألفان وثمانية عشر",
+                    "ألفان وتسعة عشر",
+                    "ألفان وعشرون",
+                    "ألفان وواحد وعشرون",
+                    "ألفان واثنان وعشرون",
+                    "ألفان وثلاثة وعشرون",
                     "ألفان وأربعة وعشرون",
                     "ألفان وخمسة وعشرون",
                     "ألفان وستة وعشرون",
                     "ألفان وسبعة وعشرون",
-                    "ألفان وثمانية وعشرون"
+                    "ألفان وثمانية وعشرون",
+                    "ألفان وتسعة وعشرون",
+                    "ألفان وثلاثون",
+                    "ألفان وواحد وثلاثون",
+                    "ألفان واثنان وثلاثون",
+                    "ألفان وثلاثة وثلاثون"
                 ]
             },
             {
@@ -441,6 +479,18 @@
                 "label": "الساعة",
                 "type": "text",
                 "not_null": true
+            },
+            {
+                "name": "SDtu",
+                "label": "الموافق",
+                "type": "date",
+                "not_null": true
+            },
+            {
+                "name": "breakline",
+                "label": "line",
+                "type": "text",
+                "not_null": false
             },
             {
                 "name": "beamteA",
@@ -476,11 +526,18 @@
                 "name": "issueOrt",
                 "label": "جهة الصدور",
                 "type": "text",
-                "not_null": false
+                "not_null": true,
+                "default": "طرابلس"
             },
             {
                 "name": "address",
                 "label": "محل الأقامة",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "breakline",
+                "label": "line",
                 "type": "text",
                 "not_null": false
             },
@@ -500,13 +557,15 @@
                 "name": "mnat",
                 "label": "الجنسية",
                 "type": "text",
-                "not_null": false
+                "not_null": true,
+                "default": "ليبي"
             },
             {
                 "name": "mrel",
                 "label": "الدين",
                 "type": "text",
-                "not_null": false
+                "not_null": true,
+                "default": "الأسلام"
             },
             {
                 "name": "mage",
@@ -523,6 +582,18 @@
             {
                 "name": "mdate",
                 "label": "تاريخ الميلاد",
+                "type": "date",
+                "not_null": false
+            },
+            {
+                "name": "mpassNr",
+                "label": "رقم جواز سفر",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "missueort",
+                "label": "جهة الصدور",
                 "type": "text",
                 "not_null": false
             },
@@ -533,20 +604,8 @@
                 "not_null": false
             },
             {
-                "name": "mpassNr",
-                "label": "رقم جواز سفر",
-                "type": "text",
-                "not_null": false
-            },
-            {
-                "name": "mort2",
-                "label": "محل الأقامة",
-                "type": "text",
-                "not_null": false
-            },
-            {
-                "name": "missueort",
-                "label": "جهة الصدور",
+                "name": "breakline",
+                "label": "line",
                 "type": "text",
                 "not_null": false
             },
@@ -559,6 +618,12 @@
             {
                 "name": "mmutort",
                 "label": "محل اقامته",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "breakline",
+                "label": "line",
                 "type": "text",
                 "not_null": false
             },
@@ -578,18 +643,20 @@
                 "name": "fnat",
                 "label": "الجنسية",
                 "type": "text",
-                "not_null": false
+                "not_null": true,
+                "default": "ليبية"
             },
             {
                 "name": "frel",
                 "label": "الدين",
                 "type": "text",
-                "not_null": false
+                "not_null": true,
+                "default": "الأسلام"
             },
             {
                 "name": "fage",
                 "label": "بالغة من العمر",
-                "type": "text",
+                "type": "number",
                 "not_null": false
             },
             {
@@ -617,14 +684,14 @@
                 "not_null": false
             },
             {
-                "name": "fort2",
-                "label": "محل الأقامة",
+                "name": "fissueort",
+                "label": "جهة الصدور",
                 "type": "text",
                 "not_null": false
             },
             {
-                "name": "fissueort",
-                "label": "جهة الصدور",
+                "name": "breakline",
+                "label": "line",
                 "type": "text",
                 "not_null": false
             },
@@ -641,6 +708,12 @@
                 "not_null": false
             },
             {
+                "name": "breakline",
+                "label": "line",
+                "type": "text",
+                "not_null": false
+            },
+            {
                 "name": "scheidate",
                 "label": "قيد الإشهاد في السجل المدني بتاريخ",
                 "type": "date",
@@ -651,6 +724,19 @@
                 "label": "تحت رقم",
                 "type": "text",
                 "not_null": false
+            },
+            {
+                "name": "beName",
+                "label": "أسم المسؤول القنصلي",
+                "type": "text",
+                "not_null": true
+            },
+            {
+                "name": "bErkennung",
+                "label": "الصفة",
+                "type": "text",
+                "not_null": true,
+                "default": "القنصل العام"
             }
         ],
         "سجل_واقعات_الوفاة": [
@@ -679,6 +765,12 @@
                 "not_null": false
             },
             {
+                "name": "breakline",
+                "label": "a",
+                "type": "text",
+                "not_null": false
+            },
+            {
                 "name": "IDNr",
                 "label": "رقم الوطني",
                 "type": "text",
@@ -700,11 +792,18 @@
                 "name": "Pidentiy",
                 "label": "مستند إثبات الشخصية",
                 "type": "text",
-                "not_null": false
+                "not_null": true,
+                "default": "جواز سفر"
             },
             {
                 "name": "PidentiyNr",
                 "label": "رقمه",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "breakline",
+                "label": "a",
                 "type": "text",
                 "not_null": false
             },
@@ -757,7 +856,8 @@
                 "name": "Sreligion",
                 "label": "الدين",
                 "type": "text",
-                "not_null": true
+                "not_null": true,
+                "default": "الأسلام"
             },
             {
                 "name": "Sgdatum",
@@ -768,6 +868,24 @@
             {
                 "name": "Sgort",
                 "label": "مكان الميلاد",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "breakline",
+                "label": "a",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "spassNr",
+                "label": "رقم جواز سفر المتوفي",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "spassdatum",
+                "label": "تاريخ صدوره",
                 "type": "text",
                 "not_null": false
             },
@@ -785,7 +903,7 @@
             },
             {
                 "name": "stag",
-                "label": "تاريخ الولادة - اليوم",
+                "label": "يوم",
                 "type": "dropdown",
                 "not_null": true,
                 "options": [
@@ -848,16 +966,43 @@
                 "type": "dropdown",
                 "not_null": true,
                 "options": [
+                    "ألفان وأربعة عشر",
+                    "ألفان وخمسة عشر",
+                    "ألفان وستة عشر",
+                    "ألفان وسبعة عشر",
+                    "ألفان وثمانية عشر",
+                    "ألفان وتسعة عشر",
+                    "ألفان وعشرون",
+                    "ألفان وواحد وعشرون",
+                    "ألفان واثنان وعشرون",
+                    "ألفان وثلاثة وعشرون",
                     "ألفان وأربعة وعشرون",
                     "ألفان وخمسة وعشرون",
                     "ألفان وستة وعشرون",
                     "ألفان وسبعة وعشرون",
-                    "ألفان وثمانية وعشرون"
+                    "ألفان وثمانية وعشرون",
+                    "ألفان وتسعة وعشرون",
+                    "ألفان وثلاثون",
+                    "ألفان وواحد وثلاثون",
+                    "ألفان واثنان وثلاثون",
+                    "ألفان وثلاثة وثلاثون"
                 ]
+            },
+            {
+                "name": "aD",
+                "label": "الموافق",
+                "type": "date",
+                "not_null": false
             },
             {
                 "name": "Sort",
                 "label": "مكان الوفاة",
+                "type": "text",
+                "not_null": false
+            },
+            {
+                "name": "breakline",
+                "label": "a",
                 "type": "text",
                 "not_null": false
             },
@@ -880,6 +1025,12 @@
                 "not_null": true
             },
             {
+                "name": "breakline",
+                "label": "a",
+                "type": "text",
+                "not_null": false
+            },
+            {
                 "name": "beamtername",
                 "label": "أسم الموظف",
                 "type": "text",
@@ -889,7 +1040,8 @@
                 "name": "beamterkennung",
                 "label": "الصفة",
                 "type": "text",
-                "not_null": true
+                "not_null": true,
+                "default": "مسؤول الشؤون القنصلية"
             },
             {
                 "name": "verdatum",
@@ -898,8 +1050,8 @@
                 "not_null": false
             },
             {
-                "name": "tag",
-                "label": "تاريخ الولادة - اليوم",
+                "name": "aT",
+                "label": "تاريخ التبليغ - اليوم",
                 "type": "dropdown",
                 "not_null": true,
                 "options": [
@@ -937,7 +1089,7 @@
                 ]
             },
             {
-                "name": "monat",
+                "name": "aM",
                 "label": "الشهر",
                 "type": "dropdown",
                 "not_null": true,
@@ -957,34 +1109,49 @@
                 ]
             },
             {
-                "name": "jahr",
+                "name": "aJ",
                 "label": "السنة",
                 "type": "dropdown",
                 "not_null": true,
                 "options": [
+                    "ألفان وأربعة عشر",
+                    "ألفان وخمسة عشر",
+                    "ألفان وستة عشر",
+                    "ألفان وسبعة عشر",
+                    "ألفان وثمانية عشر",
+                    "ألفان وتسعة عشر",
+                    "ألفان وعشرون",
+                    "ألفان وواحد وعشرون",
+                    "ألفان واثنان وعشرون",
+                    "ألفان وثلاثة وعشرون",
                     "ألفان وأربعة وعشرون",
                     "ألفان وخمسة وعشرون",
                     "ألفان وستة وعشرون",
                     "ألفان وسبعة وعشرون",
-                    "ألفان وثمانية وعشرون"
+                    "ألفان وثمانية وعشرون",
+                    "ألفان وتسعة وعشرون",
+                    "ألفان وثلاثون",
+                    "ألفان وواحد وثلاثون",
+                    "ألفان واثنان وثلاثون",
+                    "ألفان وثلاثة وثلاثون"
                 ]
+            },
+            {
+                "name": "aDtu",
+                "label": "الموافق",
+                "type": "date",
+                "not_null": false
+            },
+            {
+                "name": "breakline",
+                "label": "a",
+                "type": "text",
+                "not_null": false
             },
             {
                 "name": "notes",
                 "label": "ملاحظات",
                 "type": "text",
-                "not_null": false
-            },
-            {
-                "name": "spassNr",
-                "label": "رقم جواز سفر",
-                "type": "text",
-                "not_null": false
-            },
-            {
-                "name": "spassdatum",
-                "label": "تريخ الصدور",
-                "type": "date",
                 "not_null": false
             }
         ],
@@ -1017,7 +1184,8 @@
                 "name": "regNr",
                 "label": "سند القيد",
                 "type": "text",
-                "not_null": true
+                "not_null": true,
+                "default": "تبليغ عن ولادة"
             },
             {
                 "name": "breakline",
@@ -1036,12 +1204,6 @@
                 "label": "اللقب",
                 "type": "text",
                 "not_null": true
-            },
-            {
-                "name": "breakline",
-                "label": "a",
-                "type": "text",
-                "not_null": false
             },
             {
                 "name": "gtag",
@@ -1108,11 +1270,26 @@
                 "type": "dropdown",
                 "not_null": true,
                 "options": [
+                    "ألفان وأربعة عشر",
+                    "ألفان وخمسة عشر",
+                    "ألفان وستة عشر",
+                    "ألفان وسبعة عشر",
+                    "ألفان وثمانية عشر",
+                    "ألفان وتسعة عشر",
+                    "ألفان وعشرون",
+                    "ألفان وواحد وعشرون",
+                    "ألفان واثنان وعشرون",
+                    "ألفان وثلاثة وعشرون",
                     "ألفان وأربعة وعشرون",
                     "ألفان وخمسة وعشرون",
                     "ألفان وستة وعشرون",
                     "ألفان وسبعة وعشرون",
-                    "ألفان وثمانية وعشرون"
+                    "ألفان وثمانية وعشرون",
+                    "ألفان وتسعة وعشرون",
+                    "ألفان وثلاثون",
+                    "ألفان وواحد وثلاثون",
+                    "ألفان واثنان وثلاثون",
+                    "ألفان وثلاثة وثلاثون"
                 ]
             },
             {
@@ -1120,12 +1297,6 @@
                 "label": "الموافق",
                 "type": "date",
                 "not_null": true
-            },
-            {
-                "name": "breakline",
-                "label": "a",
-                "type": "text",
-                "not_null": false
             },
             {
                 "name": "gOrt",
@@ -1225,13 +1396,15 @@
                 "name": "Mnation",
                 "label": "جنسيتها",
                 "type": "text",
-                "not_null": true
+                "not_null": true,
+                "default": "ليبية"
             },
             {
                 "name": "Mberuf",
                 "label": "مهنتها",
                 "type": "text",
-                "not_null": true
+                "not_null": true,
+                "default": "ربة بيت"
             },
             {
                 "name": "breakline",
@@ -1310,17 +1483,32 @@
                 "type": "dropdown",
                 "not_null": true,
                 "options": [
+                    "ألفان وأربعة عشر",
+                    "ألفان وخمسة عشر",
+                    "ألفان وستة عشر",
+                    "ألفان وسبعة عشر",
+                    "ألفان وثمانية عشر",
+                    "ألفان وتسعة عشر",
+                    "ألفان وعشرون",
+                    "ألفان وواحد وعشرون",
+                    "ألفان واثنان وعشرون",
+                    "ألفان وثلاثة وعشرون",
                     "ألفان وأربعة وعشرون",
                     "ألفان وخمسة وعشرون",
                     "ألفان وستة وعشرون",
                     "ألفان وسبعة وعشرون",
-                    "ألفان وثمانية وعشرون"
+                    "ألفان وثمانية وعشرون",
+                    "ألفان وتسعة وعشرون",
+                    "ألفان وثلاثون",
+                    "ألفان وواحد وثلاثون",
+                    "ألفان واثنان وثلاثون",
+                    "ألفان وثلاثة وثلاثون"
                 ]
             },
             {
-                "name": "breakline",
-                "label": "a",
-                "type": "text",
+                "name": "adatum",
+                "label": "الموافق",
+                "type": "date",
                 "not_null": false
             },
             {
@@ -1375,6 +1563,21 @@
                     "سجل_واقعات_الولادة",
                     "شهادة_الميلاد"
                 ]
+            }
+        ],
+        "Beispiel": [
+            {
+                "name": "f",
+                "label": "f",
+                "type": "age",
+                "not_null": false,
+                "default": "d"
+            },
+            {
+                "name": "d",
+                "label": "d",
+                "type": "date",
+                "not_null": false
             }
         ]
     }

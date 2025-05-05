@@ -1564,6 +1564,21 @@
                     "شهادة_الميلاد"
                 ]
             }
+        ],
+        "Beispiel": [
+            {
+                "name": "f",
+                "label": "f",
+                "type": "age",
+                "not_null": false,
+                "default": "d"
+            },
+            {
+                "name": "d",
+                "label": "d",
+                "type": "date",
+                "not_null": false
+            }
         ]
     }
 }

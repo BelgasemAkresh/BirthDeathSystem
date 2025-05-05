@@ -126,7 +126,7 @@ class AttributeDialog(QDialog):
         self.name_edit = QLineEdit()
         self.label_edit = QLineEdit()
         self.type_combo = QComboBox()
-        self.type_combo.addItems(["text", "date", "dropdown", "number"])
+        self.type_combo.addItems(["text", "date", "dropdown", "number", "age"])
         self.notnull_check = QCheckBox("Not Null")
         self.default_edit = QLineEdit()
         # Für Dropdown-Optionen: ein read-only Feld plus Button
