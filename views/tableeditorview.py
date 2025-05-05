@@ -113,6 +113,8 @@ class TableEditorView(QWidget):
         current_group = []
 
         for attr in self.attributes:
+            if attr["type"] == "age":
+                continue
             if attr["name"] == "breakline":
                 if attr.get("label") == "print":
                     self.print_labels = attr.get("options", [self.table_name])
@@ -266,18 +268,22 @@ class TableEditorView(QWidget):
         """Gibt die aktuellen Eingabewerte als Dictionary zurück."""
         data = {}
         for attr in self.attributes_without:
+            attr_type = attr["type"]
+            if attr_type == "age":
+                continue
+
             name = attr["name"]
             widget = self.input_widgets[name]
-            attr_type = attr["type"]
 
             if attr_type == "text":
                 data[name] = widget.text().strip()
-            elif attr_type == "date":
-                data[name] = widget.date().toString("yyyy-MM-dd")
             elif attr_type == "dropdown":
                 data[name] = widget.currentText()
+            elif attr_type == "date":
+                data[name] = widget.date().toString("yyyy-MM-dd")
             elif attr_type == "number":
                 data[name] = str(widget.value())
+
             else:
                 data[name] = widget.text().strip()
 
@@ -294,9 +300,12 @@ class TableEditorView(QWidget):
     def clear_inputs(self):
         """Setzt alle Eingabefelder zurück."""
         for attr in self.attributes_without:
+            attr_type = attr["type"]
+            if attr_type == "age":
+                continue
+
             name = attr["name"]
             widget = self.input_widgets[name]
-            attr_type = attr["type"]
 
             if attr_type == "date":
                 widget.setDate(QDate.currentDate())
@@ -306,6 +315,7 @@ class TableEditorView(QWidget):
                 widget.setCurrentIndex(0 if widget.count() > 0 else -1)
             elif attr_type == "text":
                 widget.setText(attr.get("default", ""))
+
             else:
                 self.set_widget_value(widget, attr_type, attr.get("default", ""))
 

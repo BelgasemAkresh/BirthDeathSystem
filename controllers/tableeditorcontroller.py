@@ -82,32 +82,58 @@ class TableEditorController(QObject):
         row = index.row()
         record = self.model.record(row)
         self.selected_record_id = record.value("id")
-        record_data = {attr["name"]: (record.value(attr["name"]) or "") for attr in self.attributes_without}
+        record_data = {}
+        for attr in self.attributes_without:
+            value = record.value(attr["name"]) or ""
+            if attr["type"] == "age" and "default" in attr:
+                date_str = record.value(attr["default"]) or ""
+                value = self.calculate_age(date_str)
+            record_data[attr["name"]] = value
         self.view.set_input_values(record_data)
         self.view.add_button.setVisible(False)
         self.view.update_button.setVisible(True)
         self.view.delete_button.setVisible(True)
 
+    def calculate_age(self, birthdate_str):
+        try:
+            birthdate = datetime.strptime(birthdate_str, "%Y-%m-%d")
+            today = datetime.today()
+            age = today.year - birthdate.year - ((today.month, today.day) < (birthdate.month, birthdate.day))
+            return str(age)
+        except Exception:
+            return ""
+
     def add_entry(self):
         record = self.model.record()
         data = self.view.get_input_values()
-        # Fülle alle Eingabefelder in den neuen Datensatz
+
         for attr in self.attributes_without:
-            value = data.get(attr["name"], "")
-            if not value and "default" in attr:
-                value = attr["default"]
+            # Altersberechnung
+            if attr["type"] == "age":
+                birthdate_str = data.get(attr["default"], "")
+                value = self.calculate_age(birthdate_str) + " سنة"
+            else:
+                value = data.get(attr["name"], "")
+                if not value and "default" in attr:
+                    value = attr["default"]
+
             if attr.get("not_null", False) and not value:
                 QMessageBox.warning(self.view, "خطأ", f"حقل {attr['label']} لا يمكن أن يكون فارغاً!")
                 return
+
             record.setValue(attr["name"], value)
-        # Setze automatisch die adddate-Spalte mit dem aktuellen Datum
+
+        # Setze das aktuelle Datum automatisch
         record.setValue("adddate", datetime.now().strftime("%Y-%m-%d"))
+
         if not self.model.insertRecord(-1, record):
+            print(self.model.lastError().text())  # Debug-Ausgabe
             QMessageBox.critical(self.view, "خطأ", "لم يتم إضافة السجل!")
         elif self.model.submitAll():
             self.model.select()
             self.view.clear_inputs()
         else:
+            print(self.model.lastError().text())  # Debug-Ausgabe
             QMessageBox.critical(self.view, "خطأ", "خطأ أثناء الحفظ!")
 
     def update_entry(self):
@@ -168,6 +194,12 @@ class TableEditorController(QObject):
 
         context = self.view.get_input_values()
 
+        # Alter berechnen für alle "age"-Felder
+        for attr in self.attributes_without:
+            if attr["type"] == "age" and "default" in attr:
+                ref_date_str = context.get(attr["default"], "")
+                context[attr["name"]] = self.calculate_age(ref_date_str)
+
         # Heutiges Datum im gewünschten Format
         heutiges_datum = datetime.today().strftime('%d-%m-%Y')
         # Füge es dem Dictionary hinzu
@@ -211,5 +243,6 @@ class TableEditorController(QObject):
                 os.remove(temp_pdf)
         except Exception as e:
             QMessageBox.critical(self.view, "خطأ", f"خطأ أثناء الطباعة:\n{str(e)}")
+
     def go_back(self):
         self.main_window.go_to_main_menu()

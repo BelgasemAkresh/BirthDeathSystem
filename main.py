@@ -161,17 +161,20 @@ class MainMenuController(QObject):
         self.view.report_btn.clicked.connect(self.make_report)
 
     def make_report(self):
-        data = self.get_user_data()
-        numbers= self.zaehle_eintraege_zwischen(data[0], data[1])
-        heute = datetime.today().strftime('%d-%m-%Y')
-        m, f = map(sum, zip(*numbers))
+        try:
+            data = self.get_user_data()
+            numbers= self.zaehle_eintraege_zwischen(data[0], data[1])
+            heute = datetime.today().strftime('%d-%m-%Y')
+            m, f = map(sum, zip(*numbers))
 
-        self.print_record(heute, data[0], data[1],
-                          numbers[3][0], numbers[3][1],
-                          numbers[0][0],numbers[0][1],
-                          numbers[1][0],numbers[1][1],
-                          numbers[2][0],numbers[2][1],
-                          m, f, data[2], data[3])
+            self.print_record(heute, data[0], data[1],
+                              numbers[3][0], numbers[3][1],
+                              numbers[0][0],numbers[0][1],
+                              numbers[1][0],numbers[1][1],
+                              numbers[2][0],numbers[2][1],
+                              m, f, data[2], data[3])
+        except:
+            pass
 
     def print_record(self, datum, von, bis,
                      mg, fg, mh, fh, ms, fs, mt, ft,
