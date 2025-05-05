@@ -108,6 +108,12 @@
                     "ألفان وثمانية وعشرون"
                 ]
             },
+           {
+                "name": "HDtu",
+                "label": "الموافق",
+                "type": "date",
+                "not_null": true
+            },
             {
                 "name": "ort",
                 "label": "في مدينة",
@@ -444,7 +450,13 @@
                 "type": "text",
                 "not_null": true
             },
-			{
+            {
+                "name": "SDtu",
+                "label": "الموافق",
+                "type": "date",
+                "not_null": true
+            },
+	    {
                 "name": "breakline",
                 "label": "line",
                 "type": "text",
@@ -544,20 +556,8 @@
                 "not_null": false
             },
             {
-                "name": "mort",
-                "label": "محل الأقامة",
-                "type": "text",
-                "not_null": false
-            },
-            {
                 "name": "mpassNr",
                 "label": "رقم جواز سفر",
-                "type": "text",
-                "not_null": false
-            },
-            {
-                "name": "mort2",
-                "label": "محل الأقامة",
                 "type": "text",
                 "not_null": false
             },
@@ -567,7 +567,13 @@
                 "type": "text",
                 "not_null": false
             },
-			{
+            {
+                "name": "mort",
+                "label": "محل الأقامة",
+                "type": "text",
+                "not_null": false
+            },
+	   {
                 "name": "breakline",
                 "label": "line",
                 "type": "text",
@@ -620,7 +626,7 @@
             {
                 "name": "fage",
                 "label": "بالغة من العمر",
-                "type": "text",
+                "type": "number",
                 "not_null": false
             },
             {
@@ -688,6 +694,19 @@
                 "label": "تحت رقم",
                 "type": "text",
                 "not_null": false
+            },
+           {
+                "name": "beName",
+                "label": "أسم المسؤول القنصلي",
+                "type": "text",
+                "not_null": true
+            },
+           {
+                "name": "bErkennung",
+                "label": "الصفة",
+                "type": "text",
+                "not_null": true,
+                "default": "القنصل العام"
             }
         ],
         "سجل_واقعات_الوفاة": [
@@ -800,7 +819,7 @@
             {
                 "name": "Sberuf",
                 "label": "مهنته",
-                "type": "text",		
+                "type": "text",
                 "not_null": true
             },
             {
@@ -809,7 +828,7 @@
                 "type": "text",
                 "not_null": true,
                 "default": "الأسلام"
-				
+
             },
             {
                 "name": "Sgdatum",
@@ -961,7 +980,7 @@
                 "type": "text",
                 "not_null": true
             },
-           {      
+           {
                 "name": "breakline",
                 "label": "a",
                 "type": "text",
@@ -1057,6 +1076,12 @@
                     "ألفان وسبعة وعشرون",
                     "ألفان وثمانية وعشرون"
                 ]
+            },
+           {
+                "name": "aDtu",
+                "label": "الموافق",
+                "type": "date",
+                "not_null": false
             },
          {
                 "name": "breakline",
