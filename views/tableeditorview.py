@@ -7,7 +7,7 @@ from PyQt5.QtCore import Qt, QDate
 from openconfig import openconfig
 from views.proportionaltableview import ProportionalTableView
 
-
+from views.yearinput import ArabicYearInput
 class TableEditorView(QWidget):
     """
     Eine verbesserte View zur Bearbeitung von Tabellendaten mit besserer Anordnung der Eingabefelder.
@@ -217,11 +217,15 @@ class TableEditorView(QWidget):
     def create_input_widget(self, attr):
         """Erstellt das passende Eingabewidget für den Attributtyp."""
         attr_type = attr["type"]
+        attr_name = attr["name"]
 
         widget = None
 
         if attr_type == "text":
-            widget = QLineEdit()
+            if "jahr" in attr_name :
+                widget = ArabicYearInput()
+            else :
+                widget = QLineEdit()
         elif attr_type == "date":
             widget = QDateEdit()
             widget.setCalendarPopup(True)
@@ -243,7 +247,8 @@ class TableEditorView(QWidget):
 
         # Standardwert setzen
         if "default" in attr:
-            self.set_widget_value(widget, attr_type, attr["default"])
+            if attr["default"] != "jahr":
+                self.set_widget_value(widget, attr_type, attr["default"])
 
         return widget
 
