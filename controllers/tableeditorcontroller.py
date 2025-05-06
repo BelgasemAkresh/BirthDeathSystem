@@ -111,7 +111,7 @@ class TableEditorController(QObject):
             # Altersberechnung
             if attr["type"] == "age":
                 birthdate_str = data.get(attr["default"], "")
-                value = self.calculate_age(birthdate_str) + " سنة"
+                value = self.calculate_age(birthdate_str)
             else:
                 value = data.get(attr["name"], "")
                 if not value and "default" in attr:
@@ -147,16 +147,26 @@ class TableEditorController(QObject):
         if row_to_update == -1:
             QMessageBox.warning(self.view, "خطأ", "لم يتم العثور على السجل!")
             return
+
         data = self.view.get_input_values()
         for attr in self.attributes_without:
-            value = data.get(attr["name"], "")
-            if not value and "default" in attr:
-                value = attr["default"]
+            if attr["type"] == "age":
+                birthdate_str = data.get(attr["default"], "")
+                value = self.calculate_age(birthdate_str)
+            else:
+                value = data.get(attr["name"], "")
+                if not value and "default" in attr:
+                    value = attr["default"]
+
             if attr.get("not_null", False) and not value:
                 QMessageBox.warning(self.view, "خطأ", f"حقل {attr['label']} لا يمكن أن يكون فارغاً!")
                 return
-            self.model.setData(self.model.index(row_to_update, self.model.fieldIndex(attr["name"])), value)
-        # Beim Update bleibt "adddate" unverändert.
+
+            self.model.setData(
+                self.model.index(row_to_update, self.model.fieldIndex(attr["name"])),
+                value
+            )
+
         if not self.model.submitAll():
             QMessageBox.critical(self.view, "خطأ", "لم يتم تحديث السجل!")
         else:

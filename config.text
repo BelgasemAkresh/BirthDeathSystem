@@ -172,13 +172,6 @@
                 "default": "الأسلام"
             },
             {
-                "name": "halte",
-                "label": "البالغ من العمر",
-                "type": "age",
-                "not_null": false,
-                "default": "hgdatum"
-            },
-            {
                 "name": "hberuf",
                 "label": "مهنته",
                 "type": "text",
@@ -189,6 +182,13 @@
                 "label": "تاريخ الميلاد",
                 "type": "date",
                 "not_null": true
+            },
+            {
+                "name": "halte",
+                "label": "البالغ من العمر",
+                "type": "age",
+                "not_null": false,
+                "default": "hgdatum"
             },
             {
                 "name": "hadresse",

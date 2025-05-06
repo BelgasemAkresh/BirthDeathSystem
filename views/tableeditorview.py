@@ -217,6 +217,7 @@ class TableEditorView(QWidget):
     def create_input_widget(self, attr):
         """Erstellt das passende Eingabewidget für den Attributtyp."""
         attr_type = attr["type"]
+
         widget = None
 
         if attr_type == "text":
@@ -293,7 +294,7 @@ class TableEditorView(QWidget):
         """Setzt die Eingabewerte basierend auf einem Datensatz."""
         for attr in self.attributes_without:
             name = attr["name"]
-            if name in record:
+            if name in record and attr["type"] != "age":
                 widget = self.input_widgets[name]
                 self.set_widget_value(widget, attr["type"], record[name])
 
