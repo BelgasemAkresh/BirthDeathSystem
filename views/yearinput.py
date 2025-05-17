@@ -64,7 +64,6 @@ class ArabicYearInput(QLineEdit):
             arabisch = jahr_in_arabisch(jahr)
             if arabisch:
                 self.setText(arabisch)
-                self.setReadOnly(True)  # Sperrt das Eingabefeld nach Umwandlung, wenn es gültig ist
                 self.text_valid = True  # Eingabe ist jetzt gültig
             else:
                 self.setReadOnly(False)  # Lässt es wieder editierbar, falls ungültig
